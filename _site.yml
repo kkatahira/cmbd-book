@@ -1,0 +1,9 @@
+name: "『行動データの計算論モデリング』サポートページ"
+output_dir: "docs"
+navbar: 
+  title: "『行動データの計算論モデリング』"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "About"
+      href: about.html

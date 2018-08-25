@@ -13,7 +13,7 @@ output:
   html_document:
     theme: cosmo
     highlight: textmate
-    toc: true
+    toc: false 
     toc_float:
       collapse: false
     df_print: "kable"

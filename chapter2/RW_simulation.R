@@ -3,7 +3,7 @@ rm(list=ls())
 graphics.off()
 
 # 描画のためのライブラリ読み込み
-library(ggplot2)
+library(tidyverse)
 
 #----------------------------------------------------------#
 # RW modelのシミュレーションの実行

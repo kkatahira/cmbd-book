@@ -58,7 +58,7 @@ for (t in 1:T) {
 # フィットするモデルの設定
 #----------------------------------------------------------#
 
-# Q-learning
+# Q学習モデル
 func_qlearning <- function(param, choice, reward)
 {
   T <- length(choice)
@@ -98,7 +98,7 @@ func_qlearning <- function(param, choice, reward)
   return(list(negll = -ll,Q = Q, p1 = p1))
 }
 
-# win-stay lose-shift
+# WSLS (winstay-lose shift) モデル
 func_wsls <- function(param, choice, reward)
 {
   T <- length(choice)
@@ -141,7 +141,7 @@ func_minimize <- function(modelfunc, param, choice, reward)
 # 最適化による最尤推定の実行
 #----------------------------------------------------------#
 
-# q-learning
+# Q学習モデル
 fvalmin <- Inf
 for (idx in 1:10) {
   
@@ -166,7 +166,7 @@ ret <- func_qlearning(paramest, choice=c, reward=r)
 Qest <- ret$Q
 p1est <- ret$p1
 
-# winstay-lose shift
+# WSLS (winstay-lose shift) モデル
 fvalmin <- Inf
 for (idx in 1:10) {
   
@@ -192,7 +192,7 @@ ll <- sum(c == 1) * log(p1est_random) + sum(c == 2) * log(1-p1est_random)
 print(sprintf("Model 3: log-likelihood: %.2f, AIC: %.2f", ll, -2*ll + 2))
 
 #----------------------------------------------------------#
-# Plot results
+# 結果の描画
 #----------------------------------------------------------#
 ggplot() + theme_set(theme_bw(base_size = 18,base_family="Arial")) 
 
@@ -212,14 +212,11 @@ df <- data.frame(trials = 1:T,
 
 dfplot <- df %>% filter(trials <= maxtrial)
 
-#----------------------------------------------------------#
 # 選択確率のモデル間比較
-#----------------------------------------------------------#
 x11(width = 7, height = 3)
-
 g_p1 <- ggplot(df, aes(x = trials, y = p1est)) + 
-  xlab("Trial") + 
-  ylab("Prob. choosing 1") +
+  xlab("試行") + 
+  ylab("P(a = A)") +
   geom_line(aes(y = p1est), linetype = 2, size=1.0) +
   geom_line(aes(y = p1est_wsls), linetype = 1, size=1, color="gray44") +
   geom_line(aes(y = p1est_random), linetype = 3, size=1, color="gray55") +

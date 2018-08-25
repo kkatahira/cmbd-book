@@ -5,5 +5,15 @@ navbar:
   left:
     - text: "Home"
       href: index.html
+    - text: "正誤表"
+      href: errata.html
     - text: "About"
       href: about.html
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate
+    toc: true
+    toc_float:
+      collapse: false
+    df_print: "kable"

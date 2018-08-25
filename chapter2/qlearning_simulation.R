@@ -238,3 +238,6 @@ grid.arrange(gQ[[1]], gQ[[2]],g_p1, nrow=3)
 # 図を保存する場合は以下を実行
 # g <- arrangeGrob(gQ[[1]], gQ[[2]], g_p1, nrow=3) 
 # ggsave(file="./figs/qlarning_fit.eps", g) 
+
+
+

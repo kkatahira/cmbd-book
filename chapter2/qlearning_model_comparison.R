@@ -1,12 +1,9 @@
-# メモリ，グラフのクリア
+# clear 
 rm(list=ls())
 graphics.off()
-
-# 描画のためのライブラリ読み込み
 library(tidyverse)
 library(gridExtra)
 
-# 乱数のシードの設定 
 set.seed(141)
 
 #----------------------------------------------------------#
@@ -56,6 +53,7 @@ for (t in 1:T) {
   }
 }
 
+
 #----------------------------------------------------------#
 # フィットするモデルの設定
 #----------------------------------------------------------#
@@ -72,7 +70,7 @@ func_qlearning <- function(param, choice, reward)
   r <- reward
   
   p1 <- numeric(T) 
-
+  
   # Q 値の初期化( 選択肢の数x T)
   Q <- matrix(numeric(2*T), nrow=2, ncol=T)
   
@@ -100,12 +98,42 @@ func_qlearning <- function(param, choice, reward)
   return(list(negll = -ll,Q = Q, p1 = p1))
 }
 
+# win-stay lose-shift
+func_wsls <- function(param, choice, reward)
+{
+  T <- length(choice)
+  epsilon <- param[1] # error rate
+  c <- choice
+  r <- reward
+  
+  p1 <- numeric(T) 
+  
+  # initialize log-likelihood
+  ll <- 0
+  
+  for (t in 1:T) {
+    
+    # 選択肢Aの選択確率を決定
+    if (t == 1) {
+      p1[t] <- 0.5
+    } else {
+      if (r[t-1]==1)
+        p1[t] <- (c[t-1]==1) * (1-epsilon) + (c[t-1]==2) * epsilon
+      else 
+        p1[t] <- (c[t-1]==1) * (epsilon) + (c[t-1]==2) * (1-epsilon)
+    }
+    
+    ll <- ll + (c[t]==1) * log(p1[t]) +  (c[t]==2) * log(1-p1[t])
+  }
+  return(list(negll = -ll, p1 = p1))
+}
+
 # 最適化により最小化する負の対数尤度を返す関数
 func_minimize <- function(modelfunc, param, choice, reward)
 {
   ret <- modelfunc(param, choice, reward)
   
-  # 負の対数尤度のみ返す
+  # return negative log-likelihood
   return(ret$negll)
 }
 
@@ -113,21 +141,16 @@ func_minimize <- function(modelfunc, param, choice, reward)
 # 最適化による最尤推定の実行
 #----------------------------------------------------------#
 
-# 負の対数尤度の最小値を格納する変数 (最初は無限大にしておく)  
+# q-learning
 fvalmin <- Inf
-
 for (idx in 1:10) {
   
-  # 初期値を一様乱数から決める
+  # set initial value
   initparam <- runif(2, 0, 1.0)
   
-  # 最適化の実行
   res <- optim(initparam, func_minimize,
-              hessian = TRUE, 
-              modelfunc = func_qlearning, 
-              choice=c, reward=r)
+              hessian = TRUE, modelfunc = func_qlearning, choice=c, reward=r)
   
-  # 今までの解より負の対数尤度が小さかったらその結果を採用する
   if (res$value < fvalmin) {
     paramest <- res$par
     fvalmin <- res$value
@@ -138,22 +161,42 @@ print(sprintf("alpha - True value: %.2f, Estimated value: %.2f", alpha, paramest
 print(sprintf("beta  - True value: %.2f, Estimated value: %.2f", beta, paramest[2]))
 print(sprintf("Model 1: log-likelihood: %.2f, AIC: %.2f", -fvalmin, 2*fvalmin + 2*2))
 
-# 求めた最尤推定値をもとに，行動価値や選択確率のP(a=A)を改めて計算する
 ret <- func_qlearning(paramest, choice=c, reward=r)
+
 Qest <- ret$Q
 p1est <- ret$p1
 
+# winstay-lose shift
+fvalmin <- Inf
+for (idx in 1:10) {
+  
+  # set initial value
+  initparam <- runif(1, 0, 1.0)
+  
+  res <- optim(initparam, func_minimize,
+               hessian = TRUE, modelfunc = func_wsls, choice=c, reward=r)
+  
+  if (res$value < fvalmin) {
+    paramest <- res$par
+    fvalmin <- res$value
+  }
+}
+
+ret <- func_wsls(paramest, choice=c, reward=r)
+print(sprintf("Model 2: log-likelihood: %.2f, AIC: %.2f", -fvalmin, 2*fvalmin + 2))
+p1est_wsls <- ret$p1
+
+# ランダム選択モデル
+p1est_random <- sum(c == 1)/length(c)
+ll <- sum(c == 1) * log(p1est_random) + sum(c == 2) * log(1-p1est_random) 
+print(sprintf("Model 3: log-likelihood: %.2f, AIC: %.2f", ll, -2*ll + 2))
 
 #----------------------------------------------------------#
-# 結果の描画
+# Plot results
 #----------------------------------------------------------#
-
-# プロットする最大試行数 (50にすると本文の図のように50試行までをプロット)
-maxtrial <- Inf
 ggplot() + theme_set(theme_bw(base_size = 18,base_family="Arial")) 
 
-x11()
-gQ <- list()
+maxtrial <- 80
 
 df <- data.frame(trials = 1:T, 
                  Q1est = Qest[1,],
@@ -163,69 +206,36 @@ df <- data.frame(trials = 1:T,
                  c = c,
                  r = as.factor(r),
                  p1 = p1,
-                 p1est = p1est)
+                 p1est_wsls = p1est_wsls,
+                 p1est = p1est, 
+                 p1est_random = p1est_random)
 
 dfplot <- df %>% filter(trials <= maxtrial)
 
-# Q(A) の図の作成
-idxc <- 1
-g_qvalues <- ggplot(dfplot, aes(x = trials, y = Q1)) +
-  geom_line(aes(y = Q1), linetype = 1, size=1.2) +
-  geom_line(aes(y = Q1est), linetype = 5, size=1.0) +
-  geom_point(data = dfplot %>% filter(c==idxc & r == 1), 
-             aes(x = trials, y = 1.12), shape = 25, size = 1.5) + 
-  scale_y_continuous(breaks=c(0, 0.5, 1.0), labels = c(0,0.5,1)) +
-  geom_linerange(data = dfplot %>% filter(c==idxc), 
-                 aes(
-                   x = trials, 
-                   ymin = 1.0, 
-                   ymax = 1.06), 
-                 size=1) + 
-  theme(legend.position = "none") + 
-  xlab("試行") +
-  ylab("Q(A)") 
+#----------------------------------------------------------#
+# 選択確率のモデル間比較
+#----------------------------------------------------------#
+x11(width = 7, height = 3)
 
-gQ[[idxc]] <- g_qvalues
-
-# Q(B) の図の作成
-idxc <- 2
-g_qvalues <- ggplot(dfplot, aes(x = trials, y = Q2)) +
-  geom_line(aes(y = Q2), linetype = 1, size=1.2) +
-  geom_line(aes(y = Q2est), linetype = 5, size=1.0) +
-  geom_point(data = dfplot %>% filter(c==idxc & r == 1), 
-             aes(x = trials, y = 1.12), shape = 25, size = 1.5) + 
-  geom_linerange(data = dfplot %>% filter(c==idxc), 
-                 aes(
-                   x = trials, 
-                   ymin = 1.0, 
-                   ymax = 1.06), 
-                 size=1) + 
-  theme(legend.position = "none") + 
-  scale_y_continuous(breaks=c(0, 0.5, 1.0), labels = c(0,0.5,1)) +
-  xlab("試行") +
-  ylab("Q(B)")
-
-gQ[[idxc]] <- g_qvalues
-
-# P(a=A) の図の作成
-g_p1 <- ggplot(dfplot, aes(x = trials, y = p1)) + 
-  xlab("試行") + 
-  ylab("P(a = A)") +
-  geom_line(aes(y = p1), linetype = 1, size=1.2) +
+g_p1 <- ggplot(df, aes(x = trials, y = p1est)) + 
+  xlab("Trial") + 
+  ylab("Prob. choosing 1") +
   geom_line(aes(y = p1est), linetype = 2, size=1.0) +
-  geom_point(data = dfplot %>% filter(c==1 & r == 1), 
+  geom_line(aes(y = p1est_wsls), linetype = 1, size=1, color="gray44") +
+  geom_line(aes(y = p1est_random), linetype = 3, size=1, color="gray55") +
+  geom_point(data = df %>% filter(c==1 & r == 1), 
              aes(x = trials, y = 1.12), shape = 25, size = 1.5) + 
-  geom_point(data = dfplot %>% filter(c==2 & r == 1), 
+  geom_point(data = df %>% filter(c==2 & r == 1), 
              aes(x = trials, y = -0.12), shape = 2, size = 1.5) + 
   theme(legend.position = "none") + 
-  geom_linerange(data = dfplot %>% filter(c==1), 
+  geom_linerange(data = df %>% filter(c==1), 
                  aes(
                    x = trials, 
                    ymin = 1.0, 
                    ymax = 1.05), 
                  size=1) + 
   scale_y_continuous(breaks=c(0, 0.5, 1.0), labels = c(0,0.5,1)) +
-  geom_linerange(data = dfplot %>% filter(c==2), 
+  geom_linerange(data = df %>% filter(c==2), 
                  aes(
                    x = trials, 
                    ymin = -0.05, 
@@ -233,8 +243,8 @@ g_p1 <- ggplot(dfplot, aes(x = trials, y = p1)) +
                  size=1) +
   geom_path(size = 1.2) 
 
-grid.arrange(gQ[[1]], gQ[[2]],g_p1, nrow=3) 
+print(g_p1)
 
 # 図を保存する場合は以下を実行
-# g <- arrangeGrob(gQ[[1]], gQ[[2]], g_p1, nrow=3) 
-# ggsave(file="./figs/qlarning_fit.eps", g) 
+# ggsave(file="./figs/qlarning_ll_comparison.eps", g_p1) 
+

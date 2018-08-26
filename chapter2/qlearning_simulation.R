@@ -21,7 +21,7 @@ Q <- matrix(numeric(2*T), nrow=2, ncol=T)
 
 c <- numeric(T)
 r <- numeric(T) 
-p1 <- numeric(T) 
+pA <- numeric(T) 
 
 alpha <- 0.3     # 学習率
 beta <- 2.0      # 逆温度
@@ -32,9 +32,9 @@ pr <- c(0.7,0.3)
 for (t in 1:T) {
   
   # ソフトマックスで選択肢A の選択確率を決定する
-  p1[t] <- 1/(1+exp(-beta*(Q[1,t]-Q[2,t])))
+  pA[t] <- 1/(1+exp(-beta*(Q[1,t]-Q[2,t])))
   
-  if (runif(1,0,1) < p1[t]) {
+  if (runif(1,0,1) < pA[t]) {
     # Aを選択
     c[t] <- 1
     r[t] <- as.numeric(runif(1,0,1) < pr[1])
@@ -71,7 +71,7 @@ func_qlearning <- function(param, choice, reward)
   c <- choice
   r <- reward
   
-  p1 <- numeric(T) 
+  pA <- numeric(T) 
 
   # Q 値の初期化( 選択肢の数x T)
   Q <- matrix(numeric(2*T), nrow=2, ncol=T)
@@ -82,11 +82,11 @@ func_qlearning <- function(param, choice, reward)
   for (t in 1:T) {
     
     # ソフトマックスで選択肢A の選択確率を決定する
-    p1[t] <- 1/(1+exp(-beta * (Q[1,t]-Q[2,t])))
+    pA[t] <- 1/(1+exp(-beta * (Q[1,t]-Q[2,t])))
     
-    # 試行tの対数尤度は実際の選択がA (c=1) であれば log(p1[t]), 
-    # B (c=2) であればlog(1 - p1[t]) となる
-    ll <- ll + (c[t]==1) * log(p1[t]) +  (c[t]==2) * log(1-p1[t])
+    # 試行tの対数尤度は実際の選択がA (c=1) であれば log(pA[t]), 
+    # B (c=2) であればlog(1 - pA[t]) となる
+    ll <- ll + (c[t]==1) * log(pA[t]) +  (c[t]==2) * log(1-pA[t])
     
     # 行動価値の更新
     if (t < T) {
@@ -97,7 +97,7 @@ func_qlearning <- function(param, choice, reward)
       Q[3-c[t],t+1] <- Q[3-c[t],t]
     }
   }
-  return(list(negll = -ll,Q = Q, p1 = p1))
+  return(list(negll = -ll,Q = Q, pA = pA))
 }
 
 # 最適化により最小化する負の対数尤度を返す関数
@@ -141,7 +141,7 @@ print(sprintf("Model 1: log-likelihood: %.2f, AIC: %.2f", -fvalmin, 2*fvalmin + 
 # 求めた最尤推定値をもとに，行動価値や選択確率のP(a=A)を改めて計算する
 ret <- func_qlearning(paramest, choice=c, reward=r)
 Qest <- ret$Q
-p1est <- ret$p1
+pAest <- ret$pA
 
 
 #----------------------------------------------------------#
@@ -162,8 +162,8 @@ df <- data.frame(trials = 1:T,
                  Q2 = Q[2,],
                  c = c,
                  r = as.factor(r),
-                 p1 = p1,
-                 p1est = p1est)
+                 pA = pA,
+                 pAest = pAest)
 
 dfplot <- df %>% filter(trials <= maxtrial)
 
@@ -208,11 +208,11 @@ g_qvalues <- ggplot(dfplot, aes(x = trials, y = Q2)) +
 gQ[[idxc]] <- g_qvalues
 
 # P(a=A) の図の作成
-g_p1 <- ggplot(dfplot, aes(x = trials, y = p1)) + 
+g_pA <- ggplot(dfplot, aes(x = trials, y = pA)) + 
   xlab("試行") + 
   ylab("P(a = A)") +
-  geom_line(aes(y = p1), linetype = 1, size=1.2) +
-  geom_line(aes(y = p1est), linetype = 2, size=1.0) +
+  geom_line(aes(y = pA), linetype = 1, size=1.2) +
+  geom_line(aes(y = pAest), linetype = 2, size=1.0) +
   geom_point(data = dfplot %>% filter(c==1 & r == 1), 
              aes(x = trials, y = 1.12), shape = 25, size = 1.5) + 
   geom_point(data = dfplot %>% filter(c==2 & r == 1), 
@@ -233,10 +233,10 @@ g_p1 <- ggplot(dfplot, aes(x = trials, y = p1)) +
                  size=1) +
   geom_path(size = 1.2) 
 
-grid.arrange(gQ[[1]], gQ[[2]],g_p1, nrow=3) 
+grid.arrange(gQ[[1]], gQ[[2]],g_pA, nrow=3) 
 
 # 図を保存する場合は以下を実行
-# g <- arrangeGrob(gQ[[1]], gQ[[2]], g_p1, nrow=3) 
+# g <- arrangeGrob(gQ[[1]], gQ[[2]], g_pA, nrow=3) 
 # ggsave(file="./figs/qlarning_fit.eps", g) 
 
 

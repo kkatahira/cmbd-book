@@ -119,7 +119,8 @@ llval <- matrix(NA, nrow = length(alpha), ncol = length(beta))
 
 for (idxa in seq_along(alpha)) {
   for (idxb in seq_along(beta)) {
-    llval[idxa,idxb] <- - func_minimize(c(alpha[idxa], beta[idxb]), modelfunc = func_qlearning, 
+    llval[idxa,idxb] <- - func_minimize(c(alpha[idxa], beta[idxb]), 
+                                        modelfunc = func_qlearning, 
                                         choice=c, reward=r)
   }
 }

@@ -211,32 +211,32 @@ $(document).ready(function () {
 
 <p>ここでは本書で用いたRやStanのソースコードのリストを記します。</p>
 <p>RコードはRStudio上で動かすことを想定しています。</p>
-<p>必要なパッケージは章ごとに記します。インストールして使用してください。 例えば’tidyverse’を使用する必要があるときは，</p>
+<p>必要なパッケージがインストールされていない場合は，インストールして使用してください。 例えば’tidyverse’を使用する必要があるときは，</p>
 <p><code>&gt; install.packages('tidyverse')</code></p>
-<p>とコマンドライン上で打てばインストールすることができます。</p>
+<p>とコマンドライン上で打てばインストールすることができます。 このtidyverseは，ほとんどのコードでグラフの作成などに使用するものなので， 上のコマンドでインストールしておいてください。また， gridExtraも図を並べる際によく使います。</p>
 <p>第2章のファイルはフォルダ“chapter2”に，というように，章ごとにフォルダが分かれています。</p>
 <hr />
 <div id="2" class="section level3">
 <h3>第2章</h3>
-<p>第2章では，できるだけどのコードも一つのファイルに収めるようにしました。 本来はシミュレーションによるデータの生成と，パラメータ推定，結果の描画のコードは分けた方がよいと思うのですが，初学者にとっては一つのコードで一連の処理をしてグラフまで出る，という方がとりかかりやすいと考えたからです。</p>
+<p>第2章では，どのコードも一つのファイルに収めるようにしました。 本来はシミュレーションによるデータの生成と，パラメータ推定，結果の描画のコードは分けた方がよいと思うのですが，初学者にとっては一つのコードで一連の処理をしてグラフまで出る方がとりかかりやすいと考えたからです。</p>
 <ul>
-<li>RW_simulation.R (図2.2の作成に使用)
+<li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter2/RW_simulation.R">RW_simulation.R</a> (図2.2の作成に使用)
 <ul>
 <li>RWモデルのシミュレーションをします。</li>
 </ul></li>
-<li>plot_softmax.R (図2.4の作成に使用)
+<li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter2/plot_softmax.R">plot_softmax.R</a> (図2.4の作成に使用)
 <ul>
 <li>ソフトマックス関数をプロットします。</li>
 </ul></li>
-<li>qlearning_simulation.R (の作成に使用)
+<li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter2/qlearning_simulation.R">qlearning_simulation.R</a> (図2.5の作成に使用)
 <ul>
-<li>Q学習モデルのシミュレーションにより選択データを生成し，そのデータに対し最尤推定によりQ学習モデルのパラメータ推定をします。図2.5を作成します。</li>
+<li>Q学習モデルのシミュレーションにより選択データを生成し，そのデータに対し最尤推定によりQ学習モデルのパラメータ推定をします。</li>
 </ul></li>
-<li>qlearning_plot_ll_function.R (図2.6の作成に使用)
+<li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter2/qlearning_plot_ll_function.R">qlearning_plot_ll_function.R</a> (図2.6の作成に使用)
 <ul>
 <li>図2.5と同じデータを生成し，それに対するQ学習モデルの対数尤度関数をプロットします (コードの前半はqlearning_simulation.Rと同じです)。</li>
 </ul></li>
-<li>qlearning_model_comparison.R (図2.7の作成に使用)
+<li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter2/qlearning_model_comparison.R">qlearning_model_comparison.R</a> (図2.7の作成に使用)
 <ul>
 <li>図2.5と同じデータを生成し，それに対するQ学習モデル，WSLSモデル，ランダムモデルの最尤推定を行い，モデル間を比較します。</li>
 </ul></li>
@@ -247,9 +247,9 @@ $(document).ready(function () {
 <h3>第4章</h3>
 <p>4章のコードについては，MCMC法を用いる場合は，RStanのインストールが必要になります。 RStanのインストール方法は例えば<a href="https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started-(Japanese)">こちら</a>を参考にしてください。</p>
 <ul>
-<li>Bernoulli_bayes.R (図4.1の作成に使用)
+<li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter4/Bernoulli_bayes.R">Bernoulli_bayes.R</a> (図4.1の作成に使用)
 <ul>
-<li>コイントスにおけるベイズ推定。</li>
+<li>ベルヌーイ試行 (コイントスの例) のベイズ推定。</li>
 </ul></li>
 <li>qlearning_simulation_Bayes_single.R (図4.2の作成に使用)
 <ul>

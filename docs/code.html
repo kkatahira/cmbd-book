@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Rコードリスト</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">『行動データの計算論モデリング』</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">トップ</a>
+</li>
+<li>
+  <a href="code.html">Rコードのリスト</a>
+</li>
+<li>
+  <a href="errata.html">正誤表</a>
+</li>
+<li>
+  <a href="misc.html">その他</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Rコードリスト</h1>
+
+</div>
+
+
+<p>ここでは本書で用いたRやStanのソースコードのリストを記します。</p>
+<p>RコードはRStudio上で動かすことを想定しています。</p>
+<p>必要なパッケージは章ごとに記します。インストールして使用してください。 例えば’tidyverse’を使用する必要があるときは，</p>
+<p><code>&gt; install.packages('tidyverse')</code></p>
+<p>とコマンドライン上で打てばインストールすることができます。</p>
+<p>第2章のファイルはフォルダ“chapter2”に，というように，章ごとにフォルダが分かれています。</p>
+<hr />
+<div id="2" class="section level3">
+<h3>第2章</h3>
+<p>第2章では，できるだけどのコードも一つのファイルに収めるようにしました。 本来はシミュレーションによるデータの生成と，パラメータ推定，結果の描画のコードは分けた方がよいと思うのですが，初学者にとっては一つのコードで一連の処理をしてグラフまで出る，という方がとりかかりやすいと考えたからです。</p>
+<ul>
+<li>RW_simulation.R (図2.2の作成に使用)
+<ul>
+<li>RWモデルのシミュレーションをします。</li>
+</ul></li>
+<li>plot_softmax.R (図2.4の作成に使用)
+<ul>
+<li>ソフトマックス関数をプロットします。</li>
+</ul></li>
+<li>qlearning_simulation.R (の作成に使用)
+<ul>
+<li>Q学習モデルのシミュレーションにより選択データを生成し，そのデータに対し最尤推定によりQ学習モデルのパラメータ推定をします。図2.5を作成します。</li>
+</ul></li>
+<li>qlearning_plot_ll_function.R (図2.6の作成に使用)
+<ul>
+<li>図2.5と同じデータを生成し，それに対するQ学習モデルの対数尤度関数をプロットします (コードの前半はqlearning_simulation.Rと同じです)。</li>
+</ul></li>
+<li>qlearning_model_comparison.R (図2.7の作成に使用)
+<ul>
+<li>図2.5と同じデータを生成し，それに対するQ学習モデル，WSLSモデル，ランダムモデルの最尤推定を行い，モデル間を比較します。</li>
+</ul></li>
+</ul>
+<hr />
+</div>
+<div id="4" class="section level3">
+<h3>第4章</h3>
+<p>4章のコードについては，MCMC法を用いる場合は，RStanのインストールが必要になります。 RStanのインストール方法は例えば<a href="https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started-(Japanese)">こちら</a>を参考にしてください。</p>
+<ul>
+<li>Bernoulli_bayes.R (図4.1の作成に使用)
+<ul>
+<li>コイントスにおけるベイズ推定。</li>
+</ul></li>
+<li>qlearning_simulation_Bayes_single.R (図4.2の作成に使用)
+<ul>
+<li>モデルを定義したmodel_functions.R,　パラメータ推定のための関数を格納したparameter_fit_functions.Rを呼び出します。</li>
+</ul></li>
+<li>qlearning_groupdata.R (図4.5の作成に使用)
+<ul>
+<li>Stanコードであるmodel_qlearning_group.stanを呼び出します。</li>
+</ul></li>
+</ul>
+<hr />
+</div>
+<div id="5" class="section level3">
+<h3>第5章</h3>
+<p>第5章からは，データの生成するコードを独立させ，生成したデータはdata.frameとして，csvファイルにに格納します。 また，最尤推定とMAP推定のための最適化にはoptimの替わりに，より性能のよいRsolnpパッケージのsolnpを用います。</p>
+<div class="section level4">
+<h4>データ生成</h4>
+<ul>
+<li>generate_group_data_fqlearning.R
+<ul>
+<li>データ生成に使う基本コードです。このコードを実行すると，40人分のシミュレーションによりデータが生成され，./data/ 以下にcsvファイルが出力されます。 generate_data_fqlearning_single_subject.R はこのコードの設定部だけを変更して，1人分のデータを生成するようにしたものです。</li>
+</ul></li>
+</ul>
+</div>
+<div class="section level4">
+<h4>パラメータ推定，モデル選択</h4>
+<ul>
+<li>model_selection_single_subject.R (表5.1の作成に使用)
+<ul>
+<li>一人の参加者のデータからのモデル選択のデモ。generate_data_fqlearning_single_subject.Rで作成したデータを読み込み，各種のモデル選択をします。</li>
+<li>モデル関数を格納したmodel_functions_FQ.R, 最尤推定・MAP推定に用いるparameter_fit_functions_rsolnp.Rに加え， 6つのStanコード (qlearning_single_subject.stan, fqlearning_single_subject.stan, dfqlearning_single_subject.stan, qlearning_single_subject_WBIC.stan, fqlearning_single_subject_WBIC.stan, dfqlearning_single_subject_WBIC.stan) を読みこみます。</li>
+</ul></li>
+<li>model_selection_group.R (図5.4の作成に使用)
+<ul>
+<li>集団データからのモデル選択のデモ。generate_group_data_fqlearning.Rで作成したデータを読み込み，各種のモデル選択をします。</li>
+</ul></li>
+</ul>
+</div>
+<div class="section level4">
+<h4>その他</h4>
+<ul>
+<li>fqlearning_plot_logposterior.R <!--fqlearning_plot_ll.R--> (図5.2の作成に使用)
+<ul>
+<li>周辺尤度の説明のための対数事後確率密度プロット。</li>
+</ul></li>
+<li>fqlearning_laplace_approx.R (図5.3の作成に使用)
+<ul>
+<li>F-Q学習でのラプラス近似。</li>
+</ul></li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="6" class="section level3">
+<h3>第6章</h3>
+<div id="6-1-" class="section level4">
+<h4>例6-1 (群間比較)</h4>
+<div id="-1" class="section level5">
+<h5>データ生成</h5>
+<ul>
+<li>generate_data_qlearning_group_comparison.R (図6.2の作成に使用)
+<ul>
+<li>例6-1のデータ生成に使うコードです。このコードを実行すると，40人分のシミュレーションによりデータが生成され，./data/ 以下にcsvファイルが出力されます。</li>
+</ul></li>
+</ul>
+</div>
+<div class="section level5">
+<h5>モデルフィッティング</h5>
+<ul>
+<li>qlearning_group_comparison_ML_MAP.R (6.2.1の結果)
+<ul>
+<li>例6-2のデータに対し，6.2.1 (パラメータの点推定値を用いる群間比較), 6.2.2 (固定効果モデルのモデル選択による群間比較)に提示した分析をします。</li>
+</ul></li>
+<li>qlearning_group_comparison_HB.R (6.2.3の結果; 図6.3の作成に使用)
+<ul>
+<li>例6-2のデータを階層ベイズ法で解析。</li>
+<li>model_qlearning_multiple_group.stanを使います</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="6-2-" class="section level4">
+<h4>例6-2 (特性データとの相関分析)</h4>
+<div id="-2" class="section level5">
+<h5>データ生成</h5>
+<ul>
+<li>generate_data_qlearning_trait_random_slope.R (図6.5の作成に使用)
+<ul>
+<li>例6-2のデータ生成に使うコードです。</li>
+</ul></li>
+</ul>
+</div>
+<div id="-1" class="section level5">
+<h5>モデルフィッティング</h5>
+<ul>
+<li>qlearning_trait_ML_MAP.R
+<ul>
+<li>例6-2のデータを最尤推定，MAP推定で解析します。</li>
+</ul></li>
+<li>qlearning_trait_HB.R
+<ul>
+<li>例6-2のデータを階層ベイズ法で解析します。</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -3,7 +3,6 @@
 # ----------------------------------------------------- #
 
 #　負の対数尤度のみを返すラッパー関数
-
 func_minimize <- function(modelfunc, param, data, prior)
 {
   ret <- modelfunc(param, data, prior)
@@ -14,7 +13,6 @@ func_minimize <- function(modelfunc, param, data, prior)
 
 
 # 最尤推定 
-
 paramfitML <- function(modelfunctions, data, nParam)
 {
   
@@ -58,7 +56,6 @@ paramfitML <- function(modelfunctions, data, nParam)
 
 
 # MAP推定 
-
 paramfitMAP <- function(modelfunctions, data,  nParam, prior)
 {
   
@@ -90,7 +87,7 @@ paramfitMAP <- function(modelfunctions, data,  nParam, prior)
     negll[idxm] <- fvalmin
     paramlist[[idxm]] <- paramest
     
-    # log marginal likelihood (Laplace)
+    # ラプラス近似で対数周辺尤度を求める
     lml[idxm] <- lp + nParam[idxm]/2 * log(2*pi) - 0.5 * log(det(H)) 
     
     print(sprintf("Estimated value: %.2f", paramest))

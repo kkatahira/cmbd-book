@@ -10,7 +10,7 @@ navbar:
     - text: "正誤表"
       href: errata.html
     - text: "その他"
-      href: about.html
+      href: misc.html
 output:
   html_document:
     theme: cosmo

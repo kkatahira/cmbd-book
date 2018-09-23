@@ -1,9 +1,10 @@
+#------------------------------------------------------------#
+# 一人の参加者に対し，最尤推定・MAP推定を行うための関数の定義
+#------------------------------------------------------------#
+
 library(Rsolnp)
 
-#----------------------------------------------------------#
-# objective function to be minimized (for parameter fit)
-#----------------------------------------------------------#
-
+#　負の対数尤度のみを返すラッパー関数
 func_minimize <- function(modelfunc, param, data, prior)
 {
   ret <- modelfunc(param, data, prior)
@@ -12,10 +13,7 @@ func_minimize <- function(modelfunc, param, data, prior)
   return(ret$negll)
 }
 
-#----------------------------------------------------------#
-# Parameter fit ML
-#----------------------------------------------------------#
-
+# 最尤推定 
 paramfitML <- function(modelfunctions, data, nParamList)
 {
   
@@ -63,10 +61,8 @@ paramfitML <- function(modelfunctions, data, nParamList)
   return(list(negll = negll, aic = aic, bic = bic, paramlist = paramlist))
 }
 
-#----------------------------------------------------------#
-# Parameter fit MAP
-#----------------------------------------------------------#
 
+# MAP推定 
 paramfitMAP <- function(modelfunctions, data,  nParamList, prior)
 {
   
@@ -102,7 +98,7 @@ paramfitMAP <- function(modelfunctions, data,  nParamList, prior)
     negll[idxm] <- fvalmin
     paramlist[[idxm]] <- paramest
     
-    # log marginal likelihood (Laplace)
+    # ラプラス近似による対数周辺尤度の計算
     lml[idxm] <- lp + nParamList[idxm]/2 * log(2*pi) - 0.5 * log(det(H)) 
     
     hessian[[idxm]] <- H 

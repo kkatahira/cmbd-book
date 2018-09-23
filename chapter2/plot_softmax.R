@@ -34,4 +34,4 @@ print(g)
 
 # 保存するときは以下をコメントアウト 
 # (作業ディレクトリにディレクトリ./figs/を作る必要がある)
-# ggsave(file = paste0("../figs/softmax.eps"), g) 
+# ggsave(file = paste0("./figs/softmax.eps"), g) 

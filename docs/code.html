@@ -251,13 +251,16 @@ $(document).ready(function () {
 <ul>
 <li>ベルヌーイ試行 (コイントスの例) のベイズ推定。</li>
 </ul></li>
-<li>qlearning_simulation_Bayes_single.R (図4.2の作成に使用)
+<li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter4/qlearning_simulation_Bayes_single.R">qlearning_simulation_Bayes_single.R</a> (図4.2の作成に使用)
 <ul>
-<li>モデルを定義したmodel_functions.R,　パラメータ推定のための関数を格納したparameter_fit_functions.Rを呼び出します。</li>
+<li>Q学習モデルのシミュレーションにより一人分の選択データを生成し，そのデータからベイズ推定，MAP推定をします (比較のため最尤推定も行う)。 <!---
+- この関数と同等の処理をするモデルを設定する[model_functions.R](https://github.com/kkatahira/cmbd-book/blob/master/chapter4/model_functions.R)，パラメータ推定のための関数を定義した[parameter_fit_functions.R](https://github.com/kkatahira/cmbd-book/blob/master/chapter4/parameter_fit_functions.R)を呼び出します。
+- model_functions.Rでは，本文の結果では使いませんが第2章で登場したWSLSモデルやバイアスモデルも定義されています。---></li>
 </ul></li>
-<li>qlearning_groupdata.R (図4.5の作成に使用)
+<li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter4/qlearning_groupdata.R">qlearning_groupdata.R</a> (図4.5の作成に使用)
 <ul>
-<li>Stanコードであるmodel_qlearning_group.stanを呼び出します。</li>
+<li>Q学習モデルのシミュレーションにより40人分の選択データを生成し， 階層ベイズ法，固定効果分析，個人レベルMAP推定， 個人レベル最尤推定を実行します。</li>
+<li>Stanコードである<a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter4/model_qlearning_group.stan">model_qlearning_group.stan</a>を呼び出します。</li>
 </ul></li>
 </ul>
 <hr />

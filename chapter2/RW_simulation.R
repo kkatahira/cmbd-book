@@ -44,7 +44,7 @@ for (t in 1:T) {
 # ggplotのテーマ設定
 ggplot() + theme_set(theme_bw(base_size = 18)) 
 
-# ウィンドウの生成
+# 描画用ウィンドウの生成
 # (別ウインドウに図をプロットします。
 # RStudio内やRmarkdown内でプロットする際はこの行は外してください。)
 x11()

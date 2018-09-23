@@ -6,4 +6,5 @@
 *.rds
 *.csv
 *.Rmd
+_site.yml
 docs/

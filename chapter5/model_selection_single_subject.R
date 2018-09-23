@@ -1,3 +1,7 @@
+# -------------------------------------------------------- #
+# 参加者一人分のデータからパラメータ推定・モデル選択を行う。
+# -------------------------------------------------------- #
+
 # メモリのクリア，図を閉じる
 rm(list=ls())
 graphics.off()
@@ -21,23 +25,21 @@ simulation_ID <- "FQlearning_siglesubject"
 # 読み込むデータファイルの指定
 csv_simulation_data <- paste0("./data/simulation_data", simulation_ID, ".csv")
 
-#----------------------------------------------------------#
-# モデルフィッティング
-#----------------------------------------------------------#
-
-# データファイルの読み込み---------------
+# データファイルの読み込み
 dt <- read.table(csv_simulation_data, header = T, sep = ",")
 data <- list(reward = dt$r, choice = dt$choice) 
 
-# 最尤推定 ------------------------------
+# パラメータ推定 --------------------------------------------------------------
+
+# 最尤推定 
 cat("----------- ML -----------\n")
 resultML <- paramfitML(modelfunctions, data, nParamList)
 
-# MAP推定 -------------------------------
+# MAP推定 
 cat("----------- MAP -----------\n")
 resultMAP <- paramfitMAP(modelfunctions, data, nParamList, priorList)
 
-# ベイズ推定 ---------------------------
+# ベイズ推定 
 cat("----------- Bayes -----------\n")
 
 # サンプリングを並列化する場合は以下を実行
@@ -71,7 +73,8 @@ for (idxm in 1:nModel) {
 # 事後分布のプロット
 rstan::stan_hist(stanFit[[1]])
 
-# WAICの計算
+# WAICの計算 -----------------------------------------------------------------
+
 waic <- array()
 lppd <- array()
 p_waic <- array()
@@ -84,7 +87,8 @@ for (idxm in 1:nModel) {
   waic[idxm] <- - 2 * lppd[idxm] + 2* p_waic[idxm]
 }
 
-# WBICの計算
+# WBICの計算 -----------------------------------------------------------------
+
 wbic <- array()
 for (idxm in 1:nModel) {
   stanFit_WBIC[idxm] <- stan(file=modelfileWBIC[idxm], 
@@ -107,13 +111,12 @@ dfmodels <- data.frame(model = c("qlearning", "fqlearing","dfqlearning"),
 
 csv_results <- paste0("./results/model_selection_", simulation_ID, ".csv")
 
-# write results to csv file
+# 結果を書き出す
 write.table(dfmodels, file = csv_results, 
             quote = FALSE, sep = ",",row.names = FALSE)
 
-#------------------------------------------------------#
-# 尤度比検定
-#------------------------------------------------------#
+
+# 尤度比検定 -------------------------------------------------------------------
 
 # 比較するペアのリスト (対立モデル，ヌルモデル)
 mcomp <- list(c(3,2), c(3,1))
@@ -134,9 +137,9 @@ for (idx in 1:length(mcomp)) {
       ", D:", D, ", df:", df, ", p-value:", p, "\n")
 }
 
-#------------------------------------------------------#
-# ベイズファクターの計算
-#------------------------------------------------------#
+# ベイズファクターの計算 -------------------------------------------------------------
+
+# 比較するペアのリスト (対立モデル，ヌルモデル)
 mcomp <- list(c(3,2), c(3,1), c(2,3))
 
 for (idx in 1:length(mcomp)) {

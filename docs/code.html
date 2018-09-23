@@ -213,7 +213,8 @@ $(document).ready(function () {
 <p>RコードはRStudio上で動かすことを想定しています。</p>
 <p>必要なパッケージがインストールされていない場合は，インストールして使用してください。 例えば’tidyverse’を使用する必要があるときは，</p>
 <p><code>&gt; install.packages('tidyverse')</code></p>
-<p>とコマンドライン上で打てばインストールすることができます。 このtidyverseは，ほとんどのコードでグラフの作成などに使用するものなので， 上のコマンドでインストールしておいてください。また， gridExtraも図を並べる際によく使います。</p>
+<p>とコマンドライン上で打てばインストールすることができます。</p>
+<p>このtidyverseは，ほとんどのコードでグラフの作成などに使用するものなので， 上のコマンドでインストールしておいてください。また， gridExtraも図を並べる際によく使います。</p>
 <p>第2章のファイルはフォルダ“chapter2”に，というように，章ごとにフォルダが分かれています。</p>
 <hr />
 <div id="2" class="section level3">
@@ -238,7 +239,7 @@ $(document).ready(function () {
 </ul></li>
 <li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter2/qlearning_model_comparison.R">qlearning_model_comparison.R</a> (図2.7の作成に使用)
 <ul>
-<li>図2.5と同じデータを生成し，それに対するQ学習モデル，WSLSモデル，ランダムモデルの最尤推定を行い，モデル間を比較します。</li>
+<li>図2.5と同じデータを生成し，それに対するQ学習モデル，WSLSモデル，ランダムモデルの最尤推定を行い，モデルを比較します。</li>
 </ul></li>
 </ul>
 <hr />
@@ -259,7 +260,7 @@ $(document).ready(function () {
 </ul></li>
 <li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter4/qlearning_groupdata.R">qlearning_groupdata.R</a> (図4.5の作成に使用)
 <ul>
-<li>Q学習モデルのシミュレーションにより40人分の選択データを生成し， 階層ベイズ法，固定効果分析，個人レベルMAP推定， 個人レベル最尤推定を実行します。</li>
+<li>Q学習モデルのシミュレーションにより40人分の選択データを生成し， 階層ベイズ法，固定効果分析，個人レベルのMAP推定， 個人レベルの最尤推定を実行します。</li>
 <li>Stanコードである<a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter4/model_qlearning_group.stan">model_qlearning_group.stan</a>を呼び出します。</li>
 </ul></li>
 </ul>
@@ -268,22 +269,23 @@ $(document).ready(function () {
 <div id="5" class="section level3">
 <h3>第5章</h3>
 <p>第5章からは，データの生成するコードを独立させ，生成したデータはdata.frameとして，csvファイルにに格納します。 また，最尤推定とMAP推定のための最適化にはoptimの替わりに，より性能のよいRsolnpパッケージのsolnpを用います。</p>
+<p>必要に応じて以下の作業をしてから取り組んでください。 - 作業ディレクトリに’data’というデータ格納用ディレクトリを作る。 - 作業ディレクトリに’results’というデータ格納用ディレクトリを作る。 - <code>&gt; install.packages('Rsolnp')</code>　でRsolnpパッケージをインストールする。</p>
 <div class="section level4">
 <h4>データ生成</h4>
 <ul>
-<li>generate_group_data_fqlearning.R
+<li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/generate_group_data_fqlearning.R">generate_group_data_fqlearning.R</a>
 <ul>
-<li>データ生成に使う基本コードです。このコードを実行すると，40人分のシミュレーションによりデータが生成され，./data/ 以下にcsvファイルが出力されます。 generate_data_fqlearning_single_subject.R はこのコードの設定部だけを変更して，1人分のデータを生成するようにしたものです。</li>
+<li>データ生成に使う基本コードです。このコードを実行すると，40人分のシミュレーションによりデータが生成され，./data/ 以下にcsvファイルが出力されます。 <a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/generate_data_fqlearning_single_subject.R">generate_data_fqlearning_single_subject.R</a> はこのコードの設定部だけを変更して，1人分のデータを生成するようにしたものです。</li>
 </ul></li>
 </ul>
 </div>
 <div class="section level4">
 <h4>パラメータ推定，モデル選択</h4>
 <ul>
-<li>model_selection_single_subject.R (表5.1の作成に使用)
+<li><a href="">model_selection_single_subject.R</a> (表5.1の作成に使用)
 <ul>
 <li>一人の参加者のデータからのモデル選択のデモ。generate_data_fqlearning_single_subject.Rで作成したデータを読み込み，各種のモデル選択をします。</li>
-<li>モデル関数を格納したmodel_functions_FQ.R, 最尤推定・MAP推定に用いるparameter_fit_functions_rsolnp.Rに加え， 6つのStanコード (qlearning_single_subject.stan, fqlearning_single_subject.stan, dfqlearning_single_subject.stan, qlearning_single_subject_WBIC.stan, fqlearning_single_subject_WBIC.stan, dfqlearning_single_subject_WBIC.stan) を読みこみます。</li>
+<li>モデル関数を格納した<a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/model_functions_FQ.R">model_functions_FQ.R</a>, 最尤推定・MAP推定に用いる関数を定義する<a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/parameter_fit_functions.R">parameter_fit_functions.R</a>に加え， 6つのStanコード (qlearning_single_subject.stan, fqlearning_single_subject.stan, dfqlearning_single_subject.stan, qlearning_single_subject_WBIC.stan, fqlearning_single_subject_WBIC.stan, dfqlearning_single_subject_WBIC.stan) を読みこみます。(最初の3つは通常のベイズ推定，およびWAICの計算用，後半の3つはWBICの計算のためのものです。WBICを計算する場合もファイルを分けない方法もあるのですが，ここではコードの見やすさを重視して別のファイルにしました。)</li>
 </ul></li>
 <li>model_selection_group.R (図5.4の作成に使用)
 <ul>

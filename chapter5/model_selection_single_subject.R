@@ -13,7 +13,7 @@ set.seed(141)
 source("model_functions_FQ.R")
 
 # パラメータ推定用関数の読み込み
-source("parameter_fit_functions_rsolnp.R")
+source("parameter_fit_functions.R")
 
 # 読み込むデータのsimulation ID (モデルフィッティングの結果の保存にも使用する)
 simulation_ID <- "FQlearning_siglesubject" 

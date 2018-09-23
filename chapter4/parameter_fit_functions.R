@@ -7,7 +7,7 @@ func_minimize <- function(modelfunc, param, data, prior)
 {
   ret <- modelfunc(param, data, prior)
   
-  # return negative log-likelihood
+  # 負の対数尤度のみを返す
   return(ret$negll)
 }
 
@@ -28,7 +28,6 @@ paramfitML <- function(modelfunctions, data, nParam)
     
     for (idx in 1:10) {
       
-      # set initial value
       initparam <- runif(nParam[idxm], 0, 1.0)
       
       res <- optim(initparam, func_minimize,
@@ -70,7 +69,6 @@ paramfitMAP <- function(modelfunctions, data,  nParam, prior)
     
     for (idx in 1:10) {
       
-      # set initial value
       initparam <- runif(nParam[idxm], 0, 1.0)
       
       res <- optim(initparam, func_minimize,

@@ -103,7 +103,7 @@ for (idxm in 1:nModel) {
       )
     }
     
-    # MCMCを記録するパラメータ
+    # サンプルを記録するパラメータ
     parslist <- c(
       'mu_p_alpha',
       'sigma_p_alpha',
@@ -132,7 +132,7 @@ for (idxm in 1:nModel) {
       )
     }
     
-    # MCMCを記録するパラメータ
+    # サンプルを記録するパラメータ
     parslist <- c(
       'mu_p_alpha1',
       'sigma_p_alpha1',

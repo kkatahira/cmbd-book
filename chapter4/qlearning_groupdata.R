@@ -320,7 +320,7 @@ initsList <- lapply(1:nChains,
                       initf(chain_id = id, SS_param = SS_param))
 
 # サンプリング
-stanFit <- stan(file = 'model_qlearning_group.stan', 
+stanFit <- stan(file = 'smodel_qlearning_group.stan', 
                 data = dataList, 
                 iter = 5000, 
                 thin = 1, 

@@ -217,7 +217,7 @@ dataList = list(
 )
 
 # MCMC
-stanFit <- stan(file = 'qlearning_single_subject.stan', 
+stanFit <- stan(file = 'smodel_qlearning_single_subject.stan', 
                 data = dataList, 
                 iter = 5000, 
                 thin = 1, 

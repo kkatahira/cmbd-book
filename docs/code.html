@@ -269,7 +269,12 @@ $(document).ready(function () {
 <div id="5" class="section level3">
 <h3>第5章</h3>
 <p>第5章からは，データの生成するコードを独立させ，生成したデータはdata.frameとして，csvファイルにに格納します。 また，最尤推定とMAP推定のための最適化にはoptimの替わりに，より性能のよいRsolnpパッケージのsolnpを用います。</p>
-<p>必要に応じて以下の作業をしてから取り組んでください。 - 作業ディレクトリに’data’というデータ格納用ディレクトリを作る。 - 作業ディレクトリに’results’というデータ格納用ディレクトリを作る。 - <code>&gt; install.packages('Rsolnp')</code>　でRsolnpパッケージをインストールする。</p>
+<p>必要に応じて以下の作業を行ってください。</p>
+<ul>
+<li><p>作業ディレクトリに’data’というデータ格納用ディレクトリを作る。</p></li>
+<li><p>作業ディレクトリに’results’というデータ格納用ディレクトリを作る。</p></li>
+<li><p><code>&gt; install.packages('Rsolnp')</code>　でRsolnpパッケージをインストールする。</p></li>
+</ul>
 <div class="section level4">
 <h4>データ生成</h4>
 <ul>
@@ -282,27 +287,31 @@ $(document).ready(function () {
 <div class="section level4">
 <h4>パラメータ推定，モデル選択</h4>
 <ul>
-<li><a href="">model_selection_single_subject.R</a> (表5.1の作成に使用)
+<li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/model_selection_single_subject.R">model_selection_single_subject.R</a> (表5.1の作成に使用)
 <ul>
 <li>一人の参加者のデータからのモデル選択のデモ。generate_data_fqlearning_single_subject.Rで作成したデータを読み込み，各種のモデル選択をします。</li>
-<li>モデル関数を格納した<a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/model_functions_FQ.R">model_functions_FQ.R</a>, 最尤推定・MAP推定に用いる関数を定義する<a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/parameter_fit_functions.R">parameter_fit_functions.R</a>に加え， 6つのStanコード (qlearning_single_subject.stan, fqlearning_single_subject.stan, dfqlearning_single_subject.stan, qlearning_single_subject_WBIC.stan, fqlearning_single_subject_WBIC.stan, dfqlearning_single_subject_WBIC.stan) を読みこみます。(最初の3つは通常のベイズ推定，およびWAICの計算用，後半の3つはWBICの計算のためのものです。WBICを計算する場合もファイルを分けない方法もあるのですが，ここではコードの見やすさを重視して別のファイルにしました。)</li>
+<li>モデル関数を格納した<a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/model_functions_FQ.R">model_functions_FQ.R</a>, 最尤推定・MAP推定に用いる関数を定義する<a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/parameter_fit_functions.R">parameter_fit_functions.R</a>に加え， 6つのStanコード ( <a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/smodel_fqlearning_single.stan">smodel_qlearning_single.stan</a>, <a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/smodel_fqlearning_single.stan">smodel_fqlearning_single.stan</a>, <a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/smodel_dfqlearning_single.stan">smodel_dfqlearning_single.stan</a>, <a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/smodel_qlearning_single_WBIC.stan">smodel_qlearning_single_WBIC.stan</a>, <a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/smodel_fqlearning_single_WBIC.stan">smodel_fqlearning_single_WBIC.stan</a>, <a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/smodel_dfqlearning_single_WBIC.stan">smodel_dfqlearning_single_WBIC.stan</a>) を読みこみます。Stanコードの最初の3つは通常のベイズ推定およびWAICの計算用，後半の3つはWBICの計算のためのものです。WBICを計算する場合もファイルを分けない方法もあるのですが，ここではそれぞれのコードの理解しやすさを重視して別のファイルにしました。次のmodel_selection_group.Rでは，そのようにすることでそれぞれのモデルを一つのStanコードにまとめています。</li>
+<li>また，この3つのモデルはネスト関係にある (標準的Q学習モデル，F学習モデルはそれぞれDF-Q学習モデルの特殊形になっている) ため，stanコードは一つにまとめることも可能です。model_functions_FQ.Rも同様に簡略化することも可能です。その点については改めて追記します。</li>
 </ul></li>
-<li>model_selection_group.R (図5.4の作成に使用)
+<li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/model_selection_group.R">model_selection_group.R</a> (図5.4の作成に使用)
 <ul>
 <li>集団データからのモデル選択のデモ。generate_group_data_fqlearning.Rで作成したデータを読み込み，各種のモデル選択をします。</li>
+<li>最尤推定，MAP推定のためparameter_fit_functions_group.Rを読み込みます。</li>
+<li>Stanコード，<a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/smodel_qlearning_group.stan">smodel_qlearning_group.stan</a>, <a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/smodel_fqlearning_group.stan">smodel_fqlearning_group.stan</a>, <a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/smodel_dfqlearning_group.stan">smodel_dfqlearning_group.stan</a>を読み込みます。</li>
+<li>ランダム効果モデル選択法を実行するにはMatlabとSPMが必要になります。 Rでの実装も可能だと思うのですが，その点は改めて追記します。</li>
 </ul></li>
 </ul>
 </div>
 <div class="section level4">
 <h4>その他</h4>
 <ul>
-<li>fqlearning_plot_logposterior.R <!--fqlearning_plot_ll.R--> (図5.2の作成に使用)
+<li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/plot_log_posterior_fqlearning.R">plot_log_posterior_fqlearning.R</a> (図5.2の作成に使用)
 <ul>
 <li>周辺尤度の説明のための対数事後確率密度プロット。</li>
 </ul></li>
-<li>fqlearning_laplace_approx.R (図5.3の作成に使用)
+<li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/fqlearning_laplace_approx.R">fqlearning_laplace_approx.R</a> (図5.3の作成に使用)
 <ul>
-<li>F-Q学習でのラプラス近似。</li>
+<li>逆温度を固定したF-Q学習モデルを用いたラプラス近似の説明。</li>
 </ul></li>
 </ul>
 <hr />
@@ -315,7 +324,7 @@ $(document).ready(function () {
 <div id="-1" class="section level5">
 <h5>データ生成</h5>
 <ul>
-<li>generate_data_qlearning_group_comparison.R (図6.2の作成に使用)
+<li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter6/generate_data_qlearning_group_comparison.R">generate_data_qlearning_group_comparison.R</a> (図6.2の作成に使用)
 <ul>
 <li>例6-1のデータ生成に使うコードです。このコードを実行すると，40人分のシミュレーションによりデータが生成され，./data/ 以下にcsvファイルが出力されます。</li>
 </ul></li>
@@ -324,14 +333,15 @@ $(document).ready(function () {
 <div class="section level5">
 <h5>モデルフィッティング</h5>
 <ul>
-<li>qlearning_group_comparison_ML_MAP.R (6.2.1の結果)
+<li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter6/qlearning_group_comparison_HB.R">qlearning_group_comparison_ML_MAP.R</a> (6.2.1の計算に使用)
 <ul>
-<li>例6-2のデータに対し，6.2.1 (パラメータの点推定値を用いる群間比較), 6.2.2 (固定効果モデルのモデル選択による群間比較)に提示した分析をします。</li>
+<li>例6-2のデータに対し，6.2.1 (パラメータの点推定値を用いる群間比較), 6.2.2 (固定効果モデルのモデル選択による群間比較)で紹介した分析を行います。</li>
+<li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter6/model_functions_Q_mulitiple_group.R">model_functions_Q_mulitiple_group.R</a>, <a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter6/parameter_fit_functions_multiple_group.R">parameter_fit_functions_multiple_group.R</a>を読み込みます。</li>
 </ul></li>
-<li>qlearning_group_comparison_HB.R (6.2.3の結果; 図6.3の作成に使用)
+<li>qlearning_group_comparison_HB.R (6.2.3の計算; 図6.3の作成に使用)
 <ul>
-<li>例6-2のデータを階層ベイズ法で解析。</li>
-<li>model_qlearning_multiple_group.stanを使います</li>
+<li>例6-2のデータを階層ベイズ法で解析します。</li>
+<li>smodel_qlearning_multiple_group.stanを使います。</li>
 </ul></li>
 </ul>
 </div>
@@ -341,7 +351,7 @@ $(document).ready(function () {
 <div id="-2" class="section level5">
 <h5>データ生成</h5>
 <ul>
-<li>generate_data_qlearning_trait_random_slope.R (図6.5の作成に使用)
+<li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter6/generate_data_qlearning_trait_random_slope.R">generate_data_qlearning_trait_random_slope.R</a> (図6.5の作成に使用)
 <ul>
 <li>例6-2のデータ生成に使うコードです。</li>
 </ul></li>

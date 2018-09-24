@@ -54,12 +54,9 @@ smodels <- list()
 # Stanコードのリスト (ここでは一つだけ)
 modelfile <- c('smodel_qlearning_multiple_group.stan')
 
-for (idxm in 1:length(modelfile)) {
+for (idxm in seq_along(modelfile)) {
   smodels[idxm] <- rstan::stan_model(file = paste0("./",modelfile[idxm]))
 }
-
-nStanModel <- length(smodels)
-
 
 # モデルの設定 ------------------------------------------------------------------
 
@@ -173,7 +170,7 @@ print(g_model2$data,digits = 2)
 # x11()
 # traceplot(stanFit[[2]],pars=c("mu_p_alpha","lp__"))
 
-# WAICの計算 ----------------------------------------
+# WAICの計算 -------------------------------------------------------------------
 waic <- array()
 lppd <- array()
 p_waic <- array()
@@ -188,7 +185,7 @@ for (idxm in 1:nModel) {
 
 wbic <- array()
 
-# WBICの計算 ---------------------------------------
+# WBICの計算 --------------------------------------------------------------------
 for (idxm in 1:nModel) { 
   
   dataList$WBICmode = 1
@@ -210,7 +207,7 @@ for (idxm in 1:nModel) {
 
 # ベイズファクターの計算 ---------------------------------------------------------
 
-mcomp <- list(c(2,1), c(1,2)) # , c(2,3), c(2,4))
+mcomp <- list(c(2,1), c(1,2))
 
 for (idx in 1:length(mcomp)) {
   m1 <- mcomp[[idx]][1]

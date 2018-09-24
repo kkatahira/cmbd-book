@@ -8,7 +8,7 @@ data {
       // 1: common 0:different (for population dist. of alpha)
       int<lower=0> flgCommon_beta ; 
       // 1: common 0:different (for population dist. of beta)
-      int<lower=1> T ; //  total number of trials (over subjects)
+      int<lower=1> T ; // number of trials (per subject)
       int<lower=1,upper=2> c[N,T]; // choice
       real r[N,T]; // reward
       int WBICmode; // 0:normal Bayes, 1:sampling for WBIC 

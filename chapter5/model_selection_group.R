@@ -1,3 +1,7 @@
+#------------------------------------------------------------#
+# 集団データに対し，各種パラメータ推定法と各種モデル選択を行う
+#------------------------------------------------------------#
+
 # メモリのクリア，図を閉じる
 rm(list=ls())
 graphics.off()
@@ -22,30 +26,28 @@ simulation_ID <- "FQlearning_group"
 csv_simulation_data <- paste0("./data/simulation_data", simulation_ID, ".csv")
 
 
-#----------------------------------------------------------#
-# モデルフィッティング
-#----------------------------------------------------------#
+# モデルフィッティング --------------------------------------------------------------
 
-# データファイルの読み込み---------------
+# データファイルの読み込み
 data <- read.table(csv_simulation_data, header = T, sep = ",")
 
 sublist <- dplyr::distinct(data, subject)$subject
 nSubject <- length(sublist)
 nTrial <- sum(data$subject==1)
 
-# 個人レベル最尤推定 -----------------------------
+# 個人レベル最尤推定
 cat("----------- single subject  ML -----------\n")
 resultSSML <- paramfitSSML(modelfunctions, data, nParamList)
 
-# 固定効果最尤推定 -------------------------------
+# 固定効果最尤推定
 cat("----------- fixed effect ML -----------\n")
 resultFEML <- paramfitFEML(modelfunctions, data, nParamList)
 
-# MAP推定 ----------------------------------------
+# 個人レベルMAP推定
 cat("----------- MAP -----------\n")
 resultMAP <- paramfitSSMAP(modelfunctions, data, nParamList, priorList)
 
-# ベイズ推定 (階層ベイズ法)-----------------------
+# ベイズ推定 (階層ベイズ法)
 cat("----------- Bayes -----------\n")
 
 # サンプリングを並列化する場合は以下を実行
@@ -68,9 +70,9 @@ stanFit_WBIC <- list()
 
 # モデルのStanコードのリスト　順にmodel 1, model2, model 3として扱う
 # WBICを計算する場合は変数WBICmodeで切り替えるようにするため，Stanコードは3つのみ
-smodels <- c('model_qlearning_group.stan',
-               'model_fqlearning_group.stan',
-               'model_dfqlearning_group.stan')
+smodels <- c('smodel_qlearning_group.stan',
+               'smodel_fqlearning_group.stan',
+               'smodel_dfqlearning_group.stan')
 
 nModel <- length(smodels)
 
@@ -211,9 +213,8 @@ csv_results <- paste0("./results/model_selection_", simulation_ID, ".csv")
 write.table(dfmodels, file = csv_results, 
             quote = FALSE, sep = ",",row.names = FALSE)
 
-#------------------------------------------------------#
-# モデル間のAICのt検定
-#------------------------------------------------------#
+
+# モデル間のAICのt検定 ------------------------------------------------------------
 
 # 標準的なQ学習 vs. F-Q学習
 t.test(dfSSML_AIC$value[dfSSML_AIC$model=="m1"], 
@@ -223,9 +224,9 @@ t.test(dfSSML_AIC$value[dfSSML_AIC$model=="m1"],
 t.test(dfSSML_AIC$value[dfSSML_AIC$model=="m2"], 
        dfSSML_AIC$value[dfSSML_AIC$model=="m3"], paired = TRUE)
 
-#------------------------------------------------------#
-# 固定効果モデルに基づく尤度比検定
-#------------------------------------------------------#
+
+# 固定効果モデルに基づく尤度比検定 --------------------------------------------------------
+
 mcomp <- list(c(3,2), c(3,1))
 
 ll <- c(-resultFEML$negll[[1]], 
@@ -248,9 +249,9 @@ for (idx in 1:length(mcomp)) {
       ", D:", D, ", df:", df, ", p-value:", p, "\n")
 }
 
-#------------------------------------------------------#
-# 個人ごとの尤度比検定
-#------------------------------------------------------#
+
+# 参加者ごとの尤度比検定 --------------------------------------------------------------
+
 mcomp <- list(c(3,2), c(3,1)) # (alternative, null)
 
 options(nsmall=3)
@@ -279,9 +280,9 @@ for (idxSub in 1:nSubject) {
 }
 
 
-#------------------------------------------------------#
-# 集団全体に対する，個人レベルモデルに基づく尤度比検定
-#------------------------------------------------------#
+
+# 集団全体に対する，個人レベルモデルに基づく尤度比検定 ----------------------------------------------
+
 mcomp <- list(c(3,2), c(3,1)) # (alternative, null)
 
 for (idxModel in 1:length(mcomp)) {
@@ -308,22 +309,9 @@ for (idxModel in 1:length(mcomp)) {
       ", p-value:", format(p, nsmall = 2), "\n")
 }
 
-#------------------------------------------------------#
-# ベイズファクター
-#------------------------------------------------------#
+# ベイズファクター ----------------------------------------------------------------
+
 mcomp <- list(c(3,2), c(2,1), c(3,1), c(2,3))
-
-dfSSMAP_LML <- data.frame(subject = 1:nSubject, 
-                          m1 = resultMAP$lml[[1]], 
-                          m2 = resultMAP$lml[[2]], 
-                          m3 = resultMAP$lml[[3]])
-totalLML <- apply(dfSSMAP_LML[,2:4],2, sum)
-
-dfSSML_BIC <- data.frame(subject = 1:nSubject, 
-                          m1 = -resultSSML$bic[[1]]/2, 
-                          m2 = -resultSSML$bic[[2]]/2, 
-                          m3 = -resultSSML$bic[[3]]/2)
-totalBIC <- apply(dfSSML_BIC[,2:4],2, sum)
 
 for (idx in 1:length(mcomp)) {
   m1 <- mcomp[[idx]][1]
@@ -336,7 +324,7 @@ for (idx in 1:length(mcomp)) {
 }
 
 
-# ランダム効果モデル選択法 (要Matlab)------------------
+# ランダム効果モデル選択法 (要Matlab)---------------------------------------
 # # 書き出し
 write.table(dfSSMAP_LML[c("m1","m2","m3")], 
             file = "./results/SSMAP_LML.csv",

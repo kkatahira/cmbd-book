@@ -1,4 +1,4 @@
-// Model 1: normal Q-learning 
+// Standard Q-learning model for multiple group
 
 data {
       int<lower=1> N ; // number of subjects (or sessions)
@@ -7,11 +7,11 @@ data {
       int<lower=0> flgCommon_alpha ; 
       // 1: common 0:different (for population dist. of alpha)
       int<lower=0> flgCommon_beta ; 
-      // 1: common 0:different (for population dist. of  beta)
-      int<lower=1> T ; // Total trial (over subjects)
+      // 1: common 0:different (for population dist. of beta)
+      int<lower=1> T ; //  total number of trials (over subjects)
       int<lower=1,upper=2> c[N,T]; // choice
       real r[N,T]; // reward
-      int WBICmode; // 0:bayes, 1:sampling for WBIC 
+      int WBICmode; // 0:normal Bayes, 1:sampling for WBIC 
     }
     
 parameters {

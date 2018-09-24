@@ -2,7 +2,7 @@
 
 data {
       int<lower=1> N ; // number of subjects (or sessions)
-      int<lower=1> T ; // number of trial (per subjects)
+      int<lower=1> T ; // number of trial (per subject)
       int<lower=1,upper=2> c[N,T]; // choice
       real r[N,T]; // reward
       real trait[N]; // traint
@@ -60,7 +60,6 @@ model {
   sigma_p_alpha1 ~ uniform(0.0, 1.5);
   mu_p_beta ~ normal(0,1.5);
   sigma_p_beta ~ uniform(0.0, 1.5); 
-  // b1 ~ normal(0,1);
 
   eta_alpha0 ~ normal(0,1);
   eta_alpha1 ~ normal(0,1);

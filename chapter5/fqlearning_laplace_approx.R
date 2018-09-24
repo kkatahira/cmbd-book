@@ -70,18 +70,15 @@ func_fqlearning_fixed_beta <- function(param, data, prior = NULL)
   
   for (t in 1:T) {
     
-    # choosing prob 1
     pA[t] <- 1/(1+exp(-beta * (Q[1,t]-Q[2,t])))
     pA[t] <- max(min(pA[t], 0.9999), 0.0001)
     
     ll <- ll + (c[t]==1) * log(pA[t]) +  (c[t]==2) * log(1-pA[t])
     
-    # update values 
     if (t < T) {
       
       Q[c[t],t+1] <- Q[c[t],t] + alpha * (r[t] - Q[c[t],t] ) 
       
-      # for unchosen option
       Q[3-c[t],t+1] <- (1 - alphaF) * Q[3-c[t],t]
     }
   }
@@ -113,7 +110,6 @@ fvalmin <- Inf
 
 for (idx in 1:10) {
   
-  # set initial value
   initparam <- runif(nParamList[idxm], 0, 1.0)
   
   res <- solnp(initparam, fun = func_minimize, 

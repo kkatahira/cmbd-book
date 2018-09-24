@@ -210,16 +210,16 @@ $(document).ready(function () {
 
 
 <p>ここでは本書で用いたRやStanのソースコードのリストを記します。</p>
-<p>RコードはRStudio上で動かすことを想定しています。</p>
-<p>必要なパッケージがインストールされていない場合は，インストールして使用してください。 例えば’tidyverse’を使用する必要があるときは，</p>
-<p><code>&gt; install.packages('tidyverse')</code></p>
-<p>とコマンドライン上で打てばインストールすることができます。</p>
-<p>このtidyverseは，ほとんどのコードでグラフの作成などに使用するものなので， 上のコマンドでインストールしておいてください。また， gridExtraも図を並べる際によく使います。</p>
-<p>第2章のファイルはフォルダ“chapter2”に，というように，章ごとにフォルダが分かれています。</p>
+<ul>
+<li><p>RコードはRStudio上で動かすことを想定しています。</p></li>
+<li><p>必要なパッケージがインストールされていない場合は，インストールして使用してください。例えば’tidyverse’を使用する必要があるときは， <code>&gt; install.packages('tidyverse')</code> とRStudioのコマンドライン上で打てばインストールすることができます。 このtidyverseは，ほとんどのコードでグラフの作成などに使用するものなので， 上のコマンドでインストールしておいてください。また， gridExtraも図を並べる際によく使います。</p></li>
+<li><p>第2章のファイルはディレクトリ (フォルダ) “chapter2”に入っている，というように，本書の章ごとにディレクトリが分かれています。</p></li>
+<li><p>同ディレクトリにある他のファイルを読み込むこともあるので，基本的にはそのディレクトリ構成のまま，作業ディレクトリをそのファイルのあるディレクトリを移して動かしてください。作業ディレクトリを現在開いているファイルのあるディレクトリにするには，RStudioのメニューのSession -&gt; Set Working Directory -&gt; To Source File Locationを選択します。</p></li>
+<li><p>特に第2章と第4章では，どのコードもできるだけ一つのファイルに収めるようにしました。 本来はシミュレーションによるデータの生成と，パラメータ推定，結果の描画などは分けた方がよいと思うのですが，初学者にとっては多少冗長であっても一つのコードにまとまっている方がとりかかりやすいと考えたからです。そのため，プログラミングでは本来望ましくないとされるコピー&amp;ペーストをしている箇所も多くあります。ご了承ください。</p></li>
+</ul>
 <hr />
 <div id="2" class="section level3">
 <h3>第2章</h3>
-<p>第2章では，どのコードも一つのファイルに収めるようにしました。 本来はシミュレーションによるデータの生成と，パラメータ推定，結果の描画のコードは分けた方がよいと思うのですが，初学者にとっては一つのコードで一連の処理をしてグラフまで出る方がとりかかりやすいと考えたからです。</p>
 <ul>
 <li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter2/RW_simulation.R">RW_simulation.R</a> (図2.2の作成に使用)
 <ul>
@@ -246,7 +246,7 @@ $(document).ready(function () {
 </div>
 <div id="4" class="section level3">
 <h3>第4章</h3>
-<p>4章のコードについては，MCMC法を用いる場合は，RStanのインストールが必要になります。 RStanのインストール方法は例えば<a href="https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started-(Japanese)">こちら</a>を参考にしてください。</p>
+<p>4章移行のコードについては，MCMC法を用いる場合は，RStanのインストールが必要になります。RStanのインストール方法は例えば<a href="https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started-(Japanese)">こちら</a>を参考にしてください。</p>
 <ul>
 <li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter4/Bernoulli_bayes.R">Bernoulli_bayes.R</a> (図4.1の作成に使用)
 <ul>
@@ -254,14 +254,15 @@ $(document).ready(function () {
 </ul></li>
 <li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter4/qlearning_simulation_Bayes_single.R">qlearning_simulation_Bayes_single.R</a> (図4.2の作成に使用)
 <ul>
-<li>Q学習モデルのシミュレーションにより一人分の選択データを生成し，そのデータからベイズ推定，MAP推定をします (比較のため最尤推定も行う)。 <!---
+<li>Q学習モデルのシミュレーションにより一人分の選択データを生成し，そのデータからベイズ推定，MAP推定をします (比較のため最尤推定も行う)。</li>
+<li>Stanコード<a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter4/qlearning_group.stan">qlearning_single_subject.stan</a>を呼び出します。 <!---
 - この関数と同等の処理をするモデルを設定する[model_functions.R](https://github.com/kkatahira/cmbd-book/blob/master/chapter4/model_functions.R)，パラメータ推定のための関数を定義した[parameter_fit_functions.R](https://github.com/kkatahira/cmbd-book/blob/master/chapter4/parameter_fit_functions.R)を呼び出します。
-- model_functions.Rでは，本文の結果では使いませんが第2章で登場したWSLSモデルやバイアスモデルも定義されています。---></li>
+- model_functions.Rでは，本文では使いませんが第2章で登場したWSLSモデルやバイアスモデルも定義されています。---></li>
 </ul></li>
 <li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter4/qlearning_groupdata.R">qlearning_groupdata.R</a> (図4.5の作成に使用)
 <ul>
 <li>Q学習モデルのシミュレーションにより40人分の選択データを生成し， 階層ベイズ法，固定効果分析，個人レベルのMAP推定， 個人レベルの最尤推定を実行します。</li>
-<li>Stanコードである<a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter4/model_qlearning_group.stan">model_qlearning_group.stan</a>を呼び出します。</li>
+<li>Stanコードである<a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter4/smodel_qlearning_group.stan">qlearning_group.stan</a>を呼び出します。</li>
 </ul></li>
 </ul>
 <hr />
@@ -289,14 +290,14 @@ $(document).ready(function () {
 <ul>
 <li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/model_selection_single_subject.R">model_selection_single_subject.R</a> (表5.1の作成に使用)
 <ul>
-<li>一人の参加者のデータからのモデル選択のデモ。generate_data_fqlearning_single_subject.Rで作成したデータを読み込み，各種のモデル選択をします。</li>
+<li>一人の参加者のデータからのモデル選択のデモ。<a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/generate_group_data_fqlearning.R">generate_group_data_fqlearning.R</a>で作成したデータを読み込み，各種のモデル選択をします。</li>
 <li>モデル関数を格納した<a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/model_functions_FQ.R">model_functions_FQ.R</a>, 最尤推定・MAP推定に用いる関数を定義する<a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/parameter_fit_functions.R">parameter_fit_functions.R</a>に加え， 6つのStanコード ( <a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/smodel_fqlearning_single.stan">smodel_qlearning_single.stan</a>, <a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/smodel_fqlearning_single.stan">smodel_fqlearning_single.stan</a>, <a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/smodel_dfqlearning_single.stan">smodel_dfqlearning_single.stan</a>, <a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/smodel_qlearning_single_WBIC.stan">smodel_qlearning_single_WBIC.stan</a>, <a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/smodel_fqlearning_single_WBIC.stan">smodel_fqlearning_single_WBIC.stan</a>, <a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/smodel_dfqlearning_single_WBIC.stan">smodel_dfqlearning_single_WBIC.stan</a>) を読みこみます。Stanコードの最初の3つは通常のベイズ推定およびWAICの計算用，後半の3つはWBICの計算のためのものです。WBICを計算する場合もファイルを分けない方法もあるのですが，ここではそれぞれのコードの理解しやすさを重視して別のファイルにしました。次のmodel_selection_group.Rでは，そのようにすることでそれぞれのモデルを一つのStanコードにまとめています。</li>
 <li>また，この3つのモデルはネスト関係にある (標準的Q学習モデル，F学習モデルはそれぞれDF-Q学習モデルの特殊形になっている) ため，stanコードは一つにまとめることも可能です。model_functions_FQ.Rも同様に簡略化することも可能です。その点については改めて追記します。</li>
 </ul></li>
 <li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/model_selection_group.R">model_selection_group.R</a> (図5.4の作成に使用)
 <ul>
 <li>集団データからのモデル選択のデモ。generate_group_data_fqlearning.Rで作成したデータを読み込み，各種のモデル選択をします。</li>
-<li>最尤推定，MAP推定のためparameter_fit_functions_group.Rを読み込みます。</li>
+<li>最尤推定，MAP推定のため<a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/parameter_fit_functions_group.R">parameter_fit_functions_group.R</a>を読み込みます。</li>
 <li>Stanコード，<a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/smodel_qlearning_group.stan">smodel_qlearning_group.stan</a>, <a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/smodel_fqlearning_group.stan">smodel_fqlearning_group.stan</a>, <a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/smodel_dfqlearning_group.stan">smodel_dfqlearning_group.stan</a>を読み込みます。</li>
 <li>ランダム効果モデル選択法を実行するにはMatlabとSPMが必要になります。 Rでの実装も可能だと思うのですが，その点は改めて追記します。</li>
 </ul></li>
@@ -338,10 +339,10 @@ $(document).ready(function () {
 <li>例6-2のデータに対し，6.2.1 (パラメータの点推定値を用いる群間比較), 6.2.2 (固定効果モデルのモデル選択による群間比較)で紹介した分析を行います。</li>
 <li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter6/model_functions_Q_mulitiple_group.R">model_functions_Q_mulitiple_group.R</a>, <a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter6/parameter_fit_functions_multiple_group.R">parameter_fit_functions_multiple_group.R</a>を読み込みます。</li>
 </ul></li>
-<li>qlearning_group_comparison_HB.R (6.2.3の計算; 図6.3の作成に使用)
+<li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter6/qlearning_group_comparison_HB.R">qlearning_group_comparison_HB.R</a> (6.2.3の計算; 図6.3の作成に使用)
 <ul>
 <li>例6-2のデータを階層ベイズ法で解析します。</li>
-<li>smodel_qlearning_multiple_group.stanを使います。</li>
+<li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter6/smodel_qlearning_multiple_group.stan">smodel_qlearning_multiple_group.stan</a>を使います。</li>
 </ul></li>
 </ul>
 </div>
@@ -360,17 +361,27 @@ $(document).ready(function () {
 <div id="-1" class="section level5">
 <h5>モデルフィッティング</h5>
 <ul>
-<li>qlearning_trait_ML_MAP.R
+<li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter6/qlearning_trait_ML_MAP.R">qlearning_trait_ML_MAP.R</a>
 <ul>
 <li>例6-2のデータを最尤推定，MAP推定で解析します。</li>
+<li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter6/model_functions_Q_mulitiple_group.R">model_functions_Q_mulitiple_group.R</a>, <a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter6/parameter_fit_functions_multiple_group.R">parameter_fit_functions_multiple_group.R</a>を読み込みます。</li>
 </ul></li>
-<li>qlearning_trait_HB.R
+<li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter6/qlearning_trait_HB.R">qlearning_trait_HB.R</a>
 <ul>
 <li>例6-2のデータを階層ベイズ法で解析します。</li>
+<li>Stanコード，<a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter6/smodel_qlearning_trait.stan">smodel_qlearning_trait.stan</a>, <a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter6/smodel_qlearning_trait_random_slope.stan">smodel_qlearning_trait_random_slope.stan</a>を使います。</li>
 </ul></li>
 </ul>
+<hr />
 </div>
 </div>
+</div>
+<div class="section level3">
+<h3>補足</h3>
+<ul>
+<li><p>ファイル名やコメントの書き方があまり統一されておらず申し訳ありません。</p></li>
+<li><p>現在の集団データの表現形式は参加者ごとに試行数が変わる状況に対応していません。その状況への対応については今後追記していきたいと考えています。</p></li>
+</ul>
 </div>
 
 

@@ -214,13 +214,13 @@ $(document).ready(function () {
 <h3>PsyToolkitにログインする</h3>
 <ul>
 <li><a href="https://www.psytoolkit.org/cgi-bin/psy2.5.1/" class="uri">https://www.psytoolkit.org/cgi-bin/psy2.5.1/</a> にアクセス</li>
-<li>最初はRegister a PsyToolkit accountからアカウントを作る必要があります。</li>
+<li>最初は<strong>Register a PsyToolkit account</strong>からアカウントを作る必要があります。</li>
 </ul>
 </div>
-<div id="create-new-experiment" class="section level3">
-<h3>Create new experiment</h3>
+<div id="experiment" class="section level3">
+<h3>experimentを作る</h3>
 <ul>
-<li><p>minimum_2banditというexperimentを作ります。</p></li>
+<li><p>exp_2banditというexperimentを作ります。</p></li>
 <li><p>以下をコードのボックスにペーストします。</p></li>
 </ul>
 <pre><code>options
@@ -286,6 +286,7 @@ task 2armed_bandit
 
 block main
   tasklist
+    # タスク2armed_banditを20試行行う
     2armed_bandit 20 fixed
   end</code></pre>
 <ul>
@@ -293,8 +294,8 @@ block main
 <li>Compileをクリックします。</li>
 </ul>
 </div>
-<div id="create-new-survey" class="section level3">
-<h3>Create new survey</h3>
+<div id="experimentsurvey" class="section level3">
+<h3>上で作ったexperimentを含めたsurveyを作る</h3>
 <ul>
 <li><p>minimum_2banditというsurveyを作ります。</p></li>
 <li><p>以下をコードのボックスにペーストします。</p></li>
@@ -312,19 +313,28 @@ q: あなたの性別を選択してください。
 l: 2armed_bandit
 t: experiment
 q: 下に出てくる赤い画面をクリックすると課題が始まります。マウスで2つの選択肢のうちいずれかをクリックし，できるだけ多くのポイントを稼いでください。
-- minimum_2bandit</code></pre>
+- exp_2bandit</code></pre>
 <ul>
-<li>Survey statusで，Should this survey be online accessible (check, even if you just want to test it)? にチェック</li>
-<li>Study is being designedを選択します。</li>
-<li>Change survey statusをクリックします。</li>
-<li>Link to survey (you can copy this and send to other people): に表示されるURLにアクセスすると，調査が開始されます。</li>
+<li><strong>Survey status</strong>で，<strong>Should this survey be online accessible (check, even if you just want to test it)?</strong> にチェック</li>
+<li><strong>Study is being designed</strong>を選択します。</li>
+<li><strong>Change survey status</strong>をクリックします。</li>
+<li><strong>Link to survey (you can copy this and send to other people):</strong> に表示されるURLにアクセスすると，調査が開始されます。</li>
 </ul>
 </div>
 <div class="section level3">
 <h3>データのダウンロード</h3>
 <ul>
-<li>作成したsurveyのページの， Prepare and download participant dataで <strong>Prepare datafiles for download</strong>をクリック。</li>
-<li>Download data in zip fileボタンができたらクリックするとzipファイルがダウンロードされます。</li>
+<li>作成したsurveyのページの， <strong>Prepare and download participant data</strong>で <strong>Prepare datafiles for download</strong>をクリック。</li>
+<li><strong>Download data in zip file</strong>ボタンができたらクリックするとzipファイルがダウンロードされます。</li>
+</ul>
+</div>
+<div class="section level3">
+<h3>追加予定の拡張</h3>
+<ul>
+<li>反応時間に制限を設ける，反応ミスには警告メッセージを出す</li>
+<li>選択肢に画像ファイルを使う，固視点も表示する</li>
+<li>選択肢の呈示位置をランダマイズする</li>
+<li>報酬の有無をテーブルとして，Rで出力したテキストファイルで指定する (上のプログラムは毎試行乱数を振って報酬の有無を決めていますが，あらかじめ決めた割合で報酬が出る系列をシャッフルした方が参加者間の報酬割合のばらつきが抑えられます)</li>
 </ul>
 </div>
 

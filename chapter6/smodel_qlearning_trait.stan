@@ -2,7 +2,7 @@
 
 data {
       int<lower=1> N ; // number of subjects (or sessions)
-      int<lower=1> T ; // number of trials (per subjects)
+      int<lower=1> T ; // number of trials (per subject)
       int<lower=1,upper=2> c[N,T]; // choice
       real r[N,T]; // reward
       real trait[N]; // traint

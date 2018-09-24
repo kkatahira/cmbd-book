@@ -151,7 +151,6 @@ func_dfqlearning <- function(param, data, prior = NULL)
 }
 
 # 事前分布のリスト
-
 priorList <- list(
   list(alpha_a = 2, alpha_b = 2, beta_shape = 2, beta_scale = 3), # Q-learning
   list(alpha_a = 2, alpha_b = 2, beta_shape = 2, beta_scale = 3), # FQ-learning

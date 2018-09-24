@@ -57,12 +57,12 @@ stanFit <- list()
 stanFit_WBIC <- list()
 
 # モデルのStanコードのリスト　順にmodel 1, model2, model 3として扱う
-modelfile <- c('qlearning_single_subject.stan',
-               'fqlearning_single_subject.stan',
-               'dfqlearning_single_subject.stan')
-modelfileWBIC <- c('qlearning_single_subject_WBIC.stan',
-               'fqlearning_single_subject_WBIC.stan',
-               'dfqlearning_single_subject_WBIC.stan')
+modelfile <- c('smodel_qlearning_single.stan',
+               'smodel_fqlearning_single.stan',
+               'smodel_dfqlearning_single.stan')
+modelfileWBIC <- c('smodel_qlearning_single_WBIC.stan',
+               'smodel_fqlearning_single_WBIC.stan',
+               'smodel_dfqlearning_single_WBIC.stan')
 
 # サンプリング
 for (idxm in 1:nModel) {

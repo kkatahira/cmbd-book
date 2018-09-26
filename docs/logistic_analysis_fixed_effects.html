@@ -237,13 +237,13 @@ add_lag &lt;- function(df, rlag, clag){
   # 報酬が得られ選択肢2を選んでいたらrm = -1とする。
   for (m in rlag) {
     df &lt;- df %&gt;% mutate(tmp = if_else(lag(reward, n = rlag[m]) == 1, 
-                                            if_else(dplyr::lag(choice, n = rlag[m]) == 1, 1, -1), 
+                                            if_else(lag(choice, n = rlag[m]) == 1, 1, -1), 
                                             0))
     colnames(df)[ncol(df)] &lt;- paste0(&quot;r&quot;,m)
   }
   return(df)
 }</code></pre>
-<p>ここでは，デモとして第5章のコード<a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/generate_group_data_fqlearning.R">generate_group_data_fqlearning.R</a>で作ったデータを読み込んでみます。ご自分で試される際は，ファイルのパスを適当なものに書き換えてください。</p>
+<p>ここでは，第5章のコード<a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/generate_group_data_fqlearning.R">generate_group_data_fqlearning.R</a>で作ったデータを読み込みます。ご自分で試される際は，ファイルのパスを適当なものに書き換えてください。</p>
 <pre class="r"><code># データファイルの読み込み
 dfraw &lt;- dplyr::tbl_df(read.table(&quot;./chapter5/data/simulation_dataFQlearning_group.csv&quot;, 
                    header = T, sep = &quot;,&quot;))
@@ -251,7 +251,7 @@ dfraw &lt;- dplyr::tbl_df(read.table(&quot;./chapter5/data/simulation_dataFQlear
 # 必要な列だけ残す
 dfs &lt;- dfraw %&gt;% 
   select(subject, trial, choice, reward)
-print(dfs)</code></pre>
+print(dfs) </code></pre>
 <pre><code>## # A tibble: 2,000 x 4
 ##    subject trial choice reward
 ##      &lt;int&gt; &lt;int&gt;  &lt;int&gt;  &lt;int&gt;

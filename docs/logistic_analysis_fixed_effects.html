@@ -212,7 +212,7 @@ $(document).ready(function () {
 <p>ここでは本書第7章で紹介したロジスティック回帰モデルを用いた簡単な解析の流れを記します。</p>
 <p>はじめにパイプ処理などに必要になるtidyverseを呼び出します。</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
-<p>それからロジスティック回帰モデルの構造として，何試行前の履歴までを見るかを設定します。</p>
+<p>次にロジスティック回帰モデルに何試行前までの選択・報酬を説明変数に入れるかを設定します。</p>
 <pre class="r"><code># ロジスティック回帰モデルの設定をする。
 rlag &lt;- 1:5 # 説明変数に入れる報酬のラグ (1試行前，2試行前，..., 5試行前)
 clag &lt;- 1:5 # 説明変数に入れる選択のラグ (同上)</code></pre>
@@ -245,11 +245,8 @@ add_lag &lt;- function(df, rlag, clag){
 }</code></pre>
 <p>ここでは，デモとして第5章のコード<a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter5/generate_group_data_fqlearning.R">generate_group_data_fqlearning.R</a>で作ったデータを読み込んでみます。ご自分で試される際は，ファイルのパスを適当なものに書き換えてください。</p>
 <pre class="r"><code># データファイルの読み込み
-dfraw &lt;- read.table(&quot;./chapter5/data/simulation_dataFQlearning_group.csv&quot;, 
-                   header = T, sep = &quot;,&quot;)
-
-# tibble型に変換 (data.frameの拡張型)
-dfraw &lt;- as.tibble(dfraw)
+dfraw &lt;- dplyr::tbl_df(read.table(&quot;./chapter5/data/simulation_dataFQlearning_group.csv&quot;, 
+                   header = T, sep = &quot;,&quot;))
 
 # 必要な列だけ残す
 dfs &lt;- dfraw %&gt;% 

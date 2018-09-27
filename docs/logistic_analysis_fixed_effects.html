@@ -300,7 +300,7 @@ fit &lt;- glm(fmla,
            family=binomial())</code></pre>
 <p>この結果，モデルの式fmlaは以下のようになります。</p>
 <pre><code>## c0 ~ c1 + c2 + c3 + c4 + c5 + r1 + r2 + r3 + r4 + r5</code></pre>
-<p>これに加え，定数項，すなわち切片(Intercept)が自動的に入ります。切片を抜くときはモデル式に“-1”を入れる必要があります。</p>
+<p>右辺の説明変数にはこれに加え，定数項，すなわち切片(Intercept)が自動的に入ります。切片を抜くときはモデル式に“-1”を入れる必要があります。</p>
 <p>このように全ての説明変数を書かなくとも，データフレームを説明変数，目的変数の列だけにすれば</p>
 <pre class="r"><code>fit &lt;- glm(c0 ~ . ,　# ドット(.)で，c0以外の全ての列を説明変数として指定する。切片はあり。
            data = dflag %&gt;% 
@@ -342,11 +342,10 @@ fit &lt;- glm(fmla,
 ## AIC: 1933
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
-<p>報酬の履歴の効果が有意であり，1試行前 (r1) がその効果は最も強く (1.17599) そこから過去にさかのぼるにつれて報酬の影響も弱くなっていくというパターンが見られます。 以下で回帰係数を棒グラフでプロットします。</p>
+<p>“Estimate”の列が各説明変数の回帰係数の推定値を表します。報酬の履歴の効果が有意であり，1試行前 (r1) がその効果は最も強く (1.17599) そこから過去にさかのぼるにつれて報酬の影響も弱くなっていくというパターンが見られます。 以下で回帰係数を棒グラフでプロットします。</p>
 <pre class="r"><code>g &lt;- ggplot(data = data.frame(
   regressor = names(fit$coefficients), 
-  coefficients = fit$coefficients
-  ), 
+  coefficients = fit$coefficients), 
   aes(x = regressor, y = coefficients)) + 
   geom_bar(stat = &quot;identity&quot;)
 print(g)</code></pre>

@@ -209,21 +209,33 @@ $(document).ready(function () {
 </div>
 
 
-<p>(現在作成中) 手軽にオンライン実験・調査環境を構築できるPsyToolkitを使って，簡単な2腕バンディット課題を作る方法を記します。より実用的な課題の作り方はこの拡張として改めて記す予定です。</p>
+<p>(現在作成中 18’/9/28) 手軽にオンライン実験・調査環境を構築できるPsyToolkitを使って，簡単な2腕バンディット課題を作る方法を記します。より実用的な課題の作り方はこの拡張として改めて記す予定です。</p>
+<p>ここでは以下のように，緑と青の四角形が選択肢として呈示され，カーソルでいずれかを選択すると選択に応じた確率で報酬としてポイントが出る，という課題を作ります。</p>
+<div class="figure">
+<img src="image/exp_2bandit_1.png" />
+
+</div>
 <div id="psytoolkit" class="section level3">
 <h3>PsyToolkitにログインする</h3>
 <ul>
-<li><a href="https://www.psytoolkit.org/cgi-bin/psy2.5.1/" class="uri">https://www.psytoolkit.org/cgi-bin/psy2.5.1/</a> にアクセス</li>
-<li>最初は<strong>Register a PsyToolkit account</strong>からアカウントを作る必要があります。</li>
+<li><a href="https://www.psytoolkit.org/cgi-bin/psy2.5.1/" class="uri">https://www.psytoolkit.org/cgi-bin/psy2.5.1/</a> にアクセスします。</li>
+<li>最初は’Register a PsyToolkit account’からアカウントを作る必要があります。</li>
+<li>自分のアカウントができたら，ログインします。</li>
 </ul>
 </div>
 <div id="experiment" class="section level3">
 <h3>experimentを作る</h3>
 <ul>
-<li><p>exp_2banditというexperimentを作ります。</p></li>
-<li><p>以下をコードのボックスにペーストします。</p></li>
+<li>’exp_2bandit’というexperimentを作ります。名前は適当なものに変えても構いません。</li>
 </ul>
-<pre><code>options
+<div class="figure">
+<img src="image/create_exp.png" />
+
+</div>
+<ul>
+<li>以下のコードを’Enter/edit in the box below:’と書かれたテキストボックスにコピー＆ペーストします。</li>
+</ul>
+<pre class="r"><code>options
   mouse on
 
 fonts
@@ -289,18 +301,19 @@ block main
     # タスク2armed_banditを20試行行う
     2armed_bandit 20 fixed
   end</code></pre>
+<p>下の画面はコードをペーストして入力したところです。 <img src="image/insert_code.png" /></p>
 <ul>
-<li>saveをクリックします。</li>
-<li>Compileをクリックします。</li>
+<li><p>’Save’をクリックします。</p></li>
+<li><p>’Compile’をクリックします。</p></li>
 </ul>
 </div>
 <div id="experimentsurvey" class="section level3">
 <h3>上で作ったexperimentを含めたsurveyを作る</h3>
 <ul>
-<li><p>minimum_2banditというsurveyを作ります。</p></li>
+<li><p>’minimum_2bandit’というsurveyを作ります。名前は何でも構いません。</p></li>
 <li><p>以下をコードのボックスにペーストします。</p></li>
 </ul>
-<pre><code># 参加者の基本情報 ------------------------------------------
+<pre class="r"><code># 参加者の基本情報 ------------------------------------------
 
 l: sex
 t: radio
@@ -314,18 +327,19 @@ l: 2armed_bandit
 t: experiment
 q: 下に出てくる赤い画面をクリックすると課題が始まります。マウスで2つの選択肢のうちいずれかをクリックし，できるだけ多くのポイントを稼いでください。
 - exp_2bandit</code></pre>
+<p>最後の行の’exp_2bandit’は上で実際に作ったexperimentの名前にしてください。</p>
 <ul>
-<li><strong>Survey status</strong>で，<strong>Should this survey be online accessible (check, even if you just want to test it)?</strong> にチェック</li>
-<li><strong>Study is being designed</strong>を選択します。</li>
-<li><strong>Change survey status</strong>をクリックします。</li>
-<li><strong>Link to survey (you can copy this and send to other people):</strong> に表示されるURLにアクセスすると，調査が開始されます。</li>
+<li>‘Survey status’で，’Should this survey be online accessible (check, even if you just want to test it)?’ にチェックを入れる。</li>
+<li>’Study is being designed’を選択します。</li>
+<li>’Change survey status’をクリックします。</li>
+<li>‘Link to survey (you can copy this and send to other people):’ に表示されるURLにアクセスすると，調査が開始されます。</li>
 </ul>
 </div>
 <div class="section level3">
 <h3>データのダウンロード</h3>
 <ul>
-<li>作成したsurveyのページの， <strong>Prepare and download participant data</strong>で <strong>Prepare datafiles for download</strong>をクリック。</li>
-<li><strong>Download data in zip file</strong>ボタンができたらクリックするとzipファイルがダウンロードされます。</li>
+<li>作成したsurveyのページの， ’Prepare and download participant data’で ’Prepare datafiles for download’をクリック。</li>
+<li>’Download data in zip file’ボタンができたらクリックするとzipファイルがダウンロードされます。</li>
 </ul>
 </div>
 <div class="section level3">
@@ -334,7 +348,7 @@ q: 下に出てくる赤い画面をクリックすると課題が始まりま�
 <li>反応時間に制限を設ける，反応ミスには警告メッセージを出す</li>
 <li>選択肢に画像ファイルを使う，固視点も表示する</li>
 <li>選択肢の呈示位置をランダマイズする</li>
-<li>報酬の有無をテーブルとして，Rで出力したテキストファイルで指定する (上のプログラムは毎試行乱数を振って報酬の有無を決めていますが，あらかじめ決めた割合で報酬が出る系列をシャッフルした方が参加者間の報酬割合のばらつきが抑えられます)</li>
+<li>報酬の有無をテーブルとして，Rで出力したテキストファイルで指定する (上のプログラムでは毎試行乱数を振って報酬の有無を決めていますが，あらかじめ決めた割合で報酬が出る系列をシャッフルした方が参加者間の報酬割合のばらつきが抑えられます)</li>
 </ul>
 </div>
 

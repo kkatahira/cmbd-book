@@ -210,9 +210,11 @@ $(document).ready(function () {
 
 
 <p>(現在作成中 18’/9/28) 手軽にオンライン実験・調査環境を構築できるPsyToolkitを使って，簡単な2腕バンディット課題を作る方法を記します。より実用的な課題の作り方はこの拡張として改めて記す予定です。</p>
-<!-- ここでは以下のように，緑と青の四角形が選択肢として呈示され，カーソルでいずれかを選択すると選択に応じた確率で報酬としてポイントが出る，という課題を作ります。
+<p>ここでは以下のように緑と青の四角形が選択肢として呈示され，カーソルでいずれかを選択すると選択に応じた確率で報酬としてポイントが出る，という課題を作ります。</p>
+<div class="figure">
+<img src="image/exp_2bandit_1.png" />
 
-![](./image/exp_2bandit_1.png)-->
+</div>
 <div id="psytoolkit" class="section level3">
 <h3>PsyToolkitにログインする</h3>
 <ul>
@@ -226,7 +228,10 @@ $(document).ready(function () {
 <ul>
 <li>’exp_2bandit’というexperimentを作ります。名前は適当なものに変えても構いません。</li>
 </ul>
-<!-- ![](image/create_exp.png) -->
+<div class="figure">
+<img src="image/create_exp.png" />
+
+</div>
 <ul>
 <li>以下のコードを’Enter/edit in the box below:’と書かれたテキストボックスにコピー＆ペーストします。</li>
 </ul>
@@ -296,9 +301,7 @@ block main
     # タスク2armed_banditを20試行行う
     2armed_bandit 20 fixed
   end</code></pre>
-<!-- 下の画面はコードをペーストして入力したところです。
-![](image/insert_code.png)
--->
+<p>下の画面はコードをペーストして入力したところです。 <img src="image/insert_code.png" /></p>
 <ul>
 <li><p>’Save’をクリックします。</p></li>
 <li><p>’Compile’をクリックします。</p></li>

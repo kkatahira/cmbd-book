@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>PsyToolkitにおける２腕バンディット課題の拡張4 —キーボードを入力デバイスにする，教示文を呈示する—&quot;</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">『行動データの計算論モデリング』</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">トップ</a>
+</li>
+<li>
+  <a href="code.html">Rコードのリスト</a>
+</li>
+<li>
+  <a href="errata.html">正誤表</a>
+</li>
+<li>
+  <a href="misc.html">その他</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">PsyToolkitにおける２腕バンディット課題の拡張4 —キーボードを入力デバイスにする，教示文を呈示する—&quot;</h1>
+
+</div>
+
+
+<p>[ <a href="psytoolkit_minimum_2bandit.html">基本プログラム</a>| <a href="psytoolkit_2bandit_ext1.html">拡張1</a> | <a href="psytoolkit_2bandit_ext2.html">拡張2</a> | <a href="psytoolkit_2bandit_ext3.html">拡張3</a> | 拡張4]</p>
+<hr />
+<p>これまではマウスを使って選択をする方法を用いてきました。 最後に，キーボードを使った選択への拡張をします。</p>
+<p>マウス入力はスマートフォンやタブレット端末でも課題ができるので 便利な反面，同じ場所の選択肢が選ばれ続けやすいという効果も考えられます。 また，反応時間に興味がある場合もキーボード入力の方がよいでしょう。</p>
+<div class="section level3">
+<h3>キーボードの入力を受ける</h3>
+<p>ここでは，「F」キーで左のスロットマシンを，「J」キーで右のスロットマシンを 選択するようにします。</p>
+<p>キーボード入力を用いるには，以下の作業が必要となります。</p>
+<ul>
+<li>taskの中で以下のように関数keysで反応で使うキーを設定する</li>
+</ul>
+<pre class="r"><code>task 2armed_bandit
+  # 反応で使うキーの設定 f: 左を選択 j: 右を選択
+  keys f j</code></pre>
+<ul>
+<li>taskの中でキーボード入力を待つタイミングで関数readkeyを実行</li>
+</ul>
+<pre class="r"><code>readkey 1 2000 # 1: f 2: j</code></pre>
+<p>この最初の1は，「keys f j」で指定した1番目のkey (ここではf) が正解だということを意味します (ここではどちらが正解ということはないのですが)。 “正解”のキーfが制限時間の2000ms以内に押されれば，変数STATUSの値はCORRECT (1), “不正解”のキーjが入力されればSTATUSの値はWRONG (2),制限時間内にkeysで指定したキーが押されなければ STATUS の値はTIMEOUT (3) となります。</p>
+<p>現在のPsyToolkitのバージョン (2.5.1)では， 何番目のキーが押されたのか，という情報を直接受け取ることはできないようです。 そこで，正解か不正解か，ということで2つの選択を無理やり区別します。 したがって，3つ以上の選択をキーボードで入力を受けることはできません。</p>
+</div>
+<div class="section level3">
+<h3>教示文を画像で出す</h3>
+<p>マウス入力を使う場合もそうなのですが，キーボードを使う際は 特に，事前の教示でどのキーを使って選択をしてもらうかを実験参加者に伝える必要があります。 教示はsurveyの方で行ってもよいのですが，experimentの中で 行うには，教示文をパワーポイントなどで作ってスライドごとpngファイルとして 保存し，画像として呈示するのが便利です。ここでは，以下の教示画像 instruction.pngを使います。</p>
+<div class="figure">
+<img src="image/instruction.png" />
+
+</div>
+<p>まず以下のようにこのファイルを画像として読み込み，</p>
+<pre class="r"><code>bitmaps
+  ...
+  instruction # 入力方法の教示画面</code></pre>
+<p>blockでコマンドmessageの後にこの画像ファイル名を指定します。</p>
+<pre class="r"><code>block main
+  message instruction # 教示画面の表示
+  tasklist
+    2armed_bandit 40 fixed
+  end</code></pre>
+</div>
+<div id="exp_2bandit_ext4" class="section level3">
+<h3>exp_2bandit_ext4</h3>
+<ul>
+<li>これまでも使ってきた<a href="psytoolkit_files/psytoolkit_files.zip">こちらのzipファイル</a>を展開してできたファイルの8つすべてのファイルをUpload image or sound files’からアップロードします。</li>
+</ul>
+<p>コードを以下のようにします。</p>
+<pre class="r"><code>options
+  resolution 1000 800 # 画面の解像度を上げる (デフォルトは800×600)
+
+fonts
+  arial 36 # 使用するテキストのフォントを設定
+
+# 【追加】読み込む画像ファイルの選択 -----------------------------------
+bitmaps
+  green_slot1 # 緑のスロットマシンの画像
+  green_slot2 # 緑のスロットマシンの画像
+  green_slot3 # 緑のスロットマシンの画像
+  blue_slot1  # 青のスロットマシンの画像
+  blue_slot2  # 青のスロットマシンの画像
+  blue_slot3  # 青のスロットマシンの画像
+  instruction # 入力方法の教示画面
+
+# tableとしてreward_seq.txtを読み込む -----------------------------------
+table reward_seq
+  include reward_seq.txt
+
+# taskの1試行の流れを以下に記述
+task 2armed_bandit
+  # 最初の設定 ---------------------------------------
+  # 
+  #【追加】反応で使うキーの設定 f: 左を選択 j: 右を選択
+  keys f j
+  # 各選択肢の報酬の系列の読み込み
+  table reward_seq
+  # 
+  # 固視点の呈示 -----------------------------------
+  #
+  show text &quot;+&quot; 0 0 # -&gt; stimulus 1に
+  delay 2000
+  clear 1 # stimulus 1 (固視点) を消す
+  #
+  # 選択肢の位置を決める ----------------------------
+  #
+  set $option_pos random 1 2
+  if $option_pos == 1
+    # 緑が右，青が左
+    set $green_x 250
+    set $blue_x -250
+  fi
+  if $option_pos == 2
+    # 緑が左，青が右
+    set $green_x -250
+    set $blue_x 250
+  fi
+  #
+  # 選択肢の呈示 -------------------------------------------
+  #
+  draw off
+    show bitmap green_slot1 $green_x 0 # ⇒ stimulus 2に
+    show bitmap blue_slot1 $blue_x 0   # ⇒ stimulus 3に
+  draw on
+  #
+  #【追加】キーボード入力の読み取り -------------------------------
+  #
+  # &#39;f&#39;または&#39;j&#39;が押されるまで待つ
+  # 制限時間は2000ms
+  readkey 1 2000 # 1: f 2: j
+  #
+  # 反応時間の記録
+  set $decisiontime RT
+  #
+  #  2秒以内に反応がなかった場合のメッセージ ----------------
+  if STATUS == TIMEOUT
+    clear 2 3
+    set $a 0 # 反応ミス -&gt; $a = 0とする
+    show text &quot;2秒以内に選択してください！&quot; 0 0
+    delay 2500
+  fi
+  #
+  #【変更】どちらのスロットマシンを選んだか判定 ----------------
+  #
+  if STATUS == 1    # &#39;f&#39;が押された場合 (左を選択)
+    if $option_pos == 1     # 青を選択
+      set $a 2
+    fi
+    if $option_pos == 2     # 緑を選択
+      set $a 1
+    fi
+  fi
+  if STATUS == 2    # &#39;j&#39;が押された場合 (右を選択)
+    if $option_pos == 1     # 緑を選択
+      set $a 1
+    fi
+    if $option_pos == 2     # 青を選択
+      set $a 2
+    fi
+  fi
+  # 選択の結果の決定，呈示 ---------------------------------
+  #
+  # 報酬の有無の決定のため，1から100の間の乱数を生成
+  set $x random 0 100
+  if $a == 1 # 選択肢1 (緑) を選択
+    show text &quot;▲&quot; $green_x  200
+    show bitmap green_slot2 $green_x 0
+    delay 20
+    show bitmap green_slot3 $green_x 0
+    delay 500
+    if @1 == 1 # tableの1列目 (行は現在の試行ID)が1
+      show text &quot;+10ポイント&quot; 0 -200
+      set $reward 1
+    fi
+    if @1 == 0 # tableの1列目 (行は現在の試行ID)が0
+      show text &quot; +0ポイント&quot; 0 -200
+      set $reward 0
+    fi
+  fi
+  if $a == 2 # 選択肢2 (青) を選択
+    show text &quot;▲&quot; $blue_x  200
+    show bitmap blue_slot2 $blue_x 0
+    delay 20
+    show bitmap blue_slot3 $blue_x 0
+    delay 500
+    #
+    if @2 == 1 # tableの1列目 (行は現在の試行ID)が1
+      show text &quot;+10ポイント&quot; 0 -200
+      set $reward 1
+    fi
+    if @2 == 0 # tableの1列目 (行は現在の試行ID)が0
+      show text &quot; +0ポイント&quot; 0 -200
+      set $reward 0
+    fi
+  fi
+  # 1秒待つ
+  delay 1000
+  #
+  # 1試行分のデータの保存-----------------------------------
+  # 1列目: 反応時間 (選択肢が出てからキーを押すまで)
+  # 2列目: 選択 (1 or 2)
+  # 3列目: 報酬の有無 (0 or 1)
+  # 4列目: 選択肢の位置 (1:緑が右, 2:緑が左)
+  # 5列目: 選択肢1に割り当てられた報酬 (1 or 2)　
+  # 6列目: 選択肢2に割り当てられた報酬 (1 or 2)　
+  save $decisiontime $a $reward $option_pos @1 @2
+
+block main
+  message instruction # 教示画面の表示
+  tasklist
+    # タスク2armed_banditを40試行行う
+    # デフォルトだと試行の順番はランダマイズされる
+    # ので，ここではtableとして指定した報酬系列の順番通りに報酬を出すよう，
+    # オプション &#39;fixed&#39; をつける
+    2armed_bandit 40 fixed
+  end</code></pre>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -11,7 +11,7 @@
 
 
 
-<title>PsyToolkitで簡単な２腕バンディット課題を作る</title>
+<title>PsyToolkitで基本的な２腕バンディット課題を作る</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -204,17 +204,21 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">PsyToolkitで簡単な２腕バンディット課題を作る</h1>
+<h1 class="title toc-ignore">PsyToolkitで基本的な２腕バンディット課題を作る</h1>
 
 </div>
 
 
-<p>(現在作成中 18’/9/28) 手軽にオンライン実験・調査環境を構築できるPsyToolkitを使って，簡単な2腕バンディット課題を作る方法を記します。より実用的な課題の作り方はこの拡張として改めて記す予定です。</p>
-<p>ここでは以下のように緑と青の四角形が選択肢として呈示され，カーソルでいずれかを選択すると選択に応じた確率で報酬としてポイントが出る，という課題を作ります。</p>
+<p>[ 基本プログラム| <a href="psytoolkit_2bandit_ext1.html">拡張1</a> | <a href="psytoolkit_2bandit_ext2.html">拡張2</a> | <a href="psytoolkit_2bandit_ext3.html">拡張3</a> | <a href="psytoolkit_2bandit_ext4.html">拡張4</a>]</p>
+<hr />
+<p>(18’/9/30 更新)</p>
+<p>手軽にオンライン実験・調査環境を構築できるPsyToolkitを使って，簡単な2腕バンディット課題を作る方法を記します。より実用的な課題の作り方はこの拡張として他のページ (リンクは<a href="misc.html">こちら</a>) で記します。ここではPsyToolkit自体の詳細な解説は行いません。 PsyToolkitの構文については，<a href="https://www.psytoolkit.org/doc2.5.1/syntax.html" class="uri">https://www.psytoolkit.org/doc2.5.1/syntax.html</a>を参照してください。 なお，PsyToolkitはバージョン2.5.1を想定しています。</p>
 <div class="figure">
 <img src="image/exp_2bandit_1.png" />
 
 </div>
+<p>ここでは上のように緑と青の四角形が選択肢として呈示され，マウスなどによりいずれかをクリックして選択すると，選択に応じた確率で報酬としてポイントが出る，という課題を作ります。以下を順に実行すると，このような基本的な課題ができ，ブラウザ上から外部の人が実験に参加できるようになります。</p>
+<hr />
 <div id="psytoolkit" class="section level3">
 <h3>PsyToolkitにログインする</h3>
 <ul>
@@ -226,7 +230,7 @@ $(document).ready(function () {
 <div id="experiment" class="section level3">
 <h3>experimentを作る</h3>
 <ul>
-<li>’exp_2bandit’というexperimentを作ります。名前は適当なものに変えても構いません。</li>
+<li>’exp_2armed_bandit’というexperimentを作ります。名前は適当なものに変えても構いません。</li>
 </ul>
 <div class="figure">
 <img src="image/create_exp.png" />
@@ -235,26 +239,29 @@ $(document).ready(function () {
 <ul>
 <li>以下のコードを’Enter/edit in the box below:’と書かれたテキストボックスにコピー＆ペーストします。</li>
 </ul>
+<p>※Rのコードとして無理やり表示しているので，構文の色付けがおかしいところがあります (例えば’if’は青色になっているがそれを閉じる’fi’は黒色)。ご了承ください。</p>
 <pre class="r"><code>options
-  mouse on
+  mouse on # マウス入力をオンに
 
 fonts
-  arial 36
+  arial 36 # 使用するテキストのフォントを設定
 
+# 2armed_banditというtaskの1試行の流れを以下に記述
 task 2armed_bandit
-  # 1000ms (1秒) 待つ
-  delay 1000
   #
   # 選択肢の呈示 -------------------------------------------
   #
-  # x = -150, y = 0の位置に，幅50，高さ50の緑の正方形を呈示
-  show rectangle -150 0 50 50 0 255 0
-  # x = -150, y = 0の位置に，幅50，高さ50の青の正方形を呈示
-  show rectangle 150 0 50 50 0 0 255
+  # 座標x = -150, y = 0の位置に，幅50，高さ50の緑の正方形を呈示 (正方形の中心がこの座標になる)
+  show rectangle -150 0 50 50 0 255 0 # ⇒ stimulus 1
+  # 座標x = -150, y = 0の位置に，幅50，高さ50の青の正方形を呈示
+  show rectangle 150 0 50 50 0 0 255 # ⇒ stimulus 2
   #
   # マウスでの選択の読み取り -------------------------------
-  #
-  readmouse l 1 99999 range 1 2
+  # 999999 ms (実質的に時間は無制限)まで，
+  # stimulus 1 (緑の正方形)，またはstimulus 2 (青の正方形)
+  # が左クリックされるまで待つ
+  readmouse l 1 999999 range 1 2
+  # $a にはクリックされたstimulusのID (1 or 2) が入る
   set $a bitmap-under-mouse MOUSE_X MOUSE_Y
   #
   # 反応時間の記録
@@ -267,11 +274,11 @@ task 2armed_bandit
   if $a == 1 # 選択肢1 (緑) を選択
     show text &quot;▲&quot; -150 60
     delay 500
-    if $x &lt;= 70 # 0.7の確率で報酬有り
+    if $x &lt; 70 # 0.7の確率で報酬有り
       show text &quot;+10ポイント&quot; 0 -100
       set $reward 1
     fi
-    if $x &gt; 70  # 0.3の確率で報酬無し
+    if $x &gt;= 70  # 0.3の確率で報酬無し
       show text &quot;+0ポイント&quot; 0 -100
       set $reward 0
     fi
@@ -279,15 +286,16 @@ task 2armed_bandit
   if $a == 2 # 選択肢2 (青) を選択
     show text &quot;▲&quot; 150 60
     delay 500
-    if $x &lt;= 30 # 0.3の確率で報酬有り
+    if $x &lt; 30 # 0.3の確率で報酬有り
       show text &quot;+10ポイント&quot; 0 -100
       set $reward 1
     fi
-    if $x &gt; 30 # 0.7の確率で報酬無し
+    if $x &gt;= 30 # 0.7の確率で報酬無し
       show text &quot;+0ポイント&quot; 0 -100
       set $reward 0
     fi
   fi
+  # 結果が出た状態で1000ms (1秒) 待つ
   delay 1000
   #
   # 1試行分のデータの保存-----------------------------------
@@ -299,7 +307,7 @@ task 2armed_bandit
 block main
   tasklist
     # タスク2armed_banditを20試行行う
-    2armed_bandit 20 fixed
+    2armed_bandit 20
   end</code></pre>
 <p>下の画面はコードをペーストして入力したところです。 <img src="image/insert_code.png" /></p>
 <ul>
@@ -310,7 +318,7 @@ block main
 <div id="experimentsurvey" class="section level3">
 <h3>上で作ったexperimentを含めたsurveyを作る</h3>
 <ul>
-<li><p>’minimum_2bandit’というsurveyを作ります。名前は何でも構いません。</p></li>
+<li><p>’survey_2bandit’というsurveyを作ります。これも名前は何でも構いません。</p></li>
 <li><p>以下をコードのボックスにペーストします。</p></li>
 </ul>
 <pre class="r"><code># 参加者の基本情報 ------------------------------------------
@@ -326,29 +334,20 @@ q: あなたの性別を選択してください。
 l: 2armed_bandit
 t: experiment
 q: 下に出てくる赤い画面をクリックすると課題が始まります。マウスで2つの選択肢のうちいずれかをクリックし，できるだけ多くのポイントを稼いでください。
-- exp_2bandit</code></pre>
-<p>最後の行の’exp_2bandit’は上で実際に作ったexperimentの名前にしてください。</p>
+- exp_2armed_bandit</code></pre>
+<p>最後の行の’exp_2armed_bandit’は上で実際に作ったexperimentの名前にする必要があります。</p>
 <ul>
-<li>‘Survey status’で，’Should this survey be online accessible (check, even if you just want to test it)?’ にチェックを入れる。</li>
-<li>’Study is being designed’を選択します。</li>
-<li>’Change survey status’をクリックします。</li>
-<li>‘Link to survey (you can copy this and send to other people):’ に表示されるURLにアクセスすると，調査が開始されます。</li>
+<li><p>‘Survey status’で，’Should this survey be online accessible (check, even if you just want to test it)?’ にチェックを入れる。</p></li>
+<li><p>’Study is being designed’を選択します。</p></li>
+<li><p>’Change survey status’をクリックします。</p></li>
+<li><p>‘Link to survey (you can copy this and send to other people):’ に表示されるURLにアクセスすると，調査が開始されます。</p></li>
 </ul>
 </div>
 <div class="section level3">
 <h3>データのダウンロード</h3>
 <ul>
-<li>作成したsurveyのページの， ’Prepare and download participant data’で ’Prepare datafiles for download’をクリック。</li>
-<li>’Download data in zip file’ボタンができたらクリックするとzipファイルがダウンロードされます。</li>
-</ul>
-</div>
-<div class="section level3">
-<h3>追加予定の拡張</h3>
-<ul>
-<li>反応時間に制限を設ける，反応ミスには警告メッセージを出す</li>
-<li>選択肢に画像ファイルを使う，固視点も表示する</li>
-<li>選択肢の呈示位置をランダマイズする</li>
-<li>報酬の有無をテーブルとして，Rで出力したテキストファイルで指定する (上のプログラムでは毎試行乱数を振って報酬の有無を決めていますが，あらかじめ決めた割合で報酬が出る系列をシャッフルした方が参加者間の報酬割合のばらつきが抑えられます)</li>
+<li><p>作成したsurveyのページの， ’Prepare and download participant data’で ’Prepare datafiles for download’をクリック。</p></li>
+<li><p>’Download data in zip file’ボタンができたらクリックするとzipファイルがダウンロードされます。</p></li>
 </ul>
 </div>
 

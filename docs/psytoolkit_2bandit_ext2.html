@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>PsyToolkitにおける２腕バンディット課題の拡張2 —試行ごとの報酬の有無をテーブルで指定する—</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">『行動データの計算論モデリング』</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">トップ</a>
+</li>
+<li>
+  <a href="code.html">Rコードのリスト</a>
+</li>
+<li>
+  <a href="errata.html">正誤表</a>
+</li>
+<li>
+  <a href="misc.html">その他</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">PsyToolkitにおける２腕バンディット課題の拡張2 —試行ごとの報酬の有無をテーブルで指定する—</h1>
+
+</div>
+
+
+<p>[ <a href="psytoolkit_minimum_2bandit.html">基本プログラム</a>| <a href="psytoolkit_2bandit_ext1.html">拡張1</a> | 拡張2 | <a href="psytoolkit_2bandit_ext3.html">拡張3</a> | <a href="psytoolkit_2bandit_ext4.html">拡張4</a>]</p>
+<hr />
+<p>これまでのプログラムでは毎試行乱数を振って報酬の有無を決めていますが，あらかじめ決めた割合で報酬が出る系列をシャッフルした方が参加者間の報酬割合のばらつきが抑えられます。</p>
+<p>以下のような流れで事前に決めた報酬の系列を用いることができます。</p>
+<ol style="list-style-type: decimal">
+<li>まずはRなどで報酬の系列を生成し，行方向を試行，列方向を各選択肢に割り当てらえた報酬とする テキストファイルを作ります。</li>
+<li>そのファイルをPsyToolkitのexperiment上でアップロードします。</li>
+<li>experimentのコード内でそのファイルをtableとして読み込みます。</li>
+<li>コードのtask内で，第n試行目ではtableはn行目が読まれ，<a href="mailto:その1列目は&#39;@1">その1列目は'@1</a>’，<a href="mailto:2列目は&#39;@2&#39;という変数として参照します">2列目は'@2'という変数として参照します</a>。</li>
+</ol>
+<div id="exp_2armed_bandit_ext2" class="section level3">
+<h3>exp_2armed_bandit_ext2</h3>
+<p>まず，Rで以下のようなスクリプトで各選択肢の報酬系列を決めるテキストファイルを作ります。</p>
+<pre class="r"><code># 乱数のシードの設定
+set.seed(1)
+
+pr_good &lt;- 0.7 # good optionの報酬確率
+pr_bad &lt;- 0.3  # bad optionの報酬確率
+
+T &lt;- 40 # 試行数
+
+# pr_* の割合で1 (報酬あり)，1-pr_*の割合で0 (報酬なし)となる数列を作る
+Rgood &lt;- rep(c(0,1), times = c(round( T * (1-pr_good)), round( T * pr_good)))
+Rbad &lt;- rep(c(0,1), times = c(round( T * (1-pr_bad)), round( T * pr_bad)))
+
+# シャッフルする
+Rgood &lt;- sample(Rgood)
+Rbad &lt;- sample(Rbad)
+
+# データフレームに格納
+df &lt;- data.frame(optionA = Rgood, optionB = Rbad)
+
+# テキストファイルに書き出す
+write.table(df, &quot;reward_seq.txt&quot;, 
+            quote=F, 
+            sep=&quot; &quot;, 
+            row.names=F, 
+            col.names=F)</code></pre>
+<p>生成した系列は以下のようになります。</p>
+<pre class="r"><code>print(df)</code></pre>
+<pre><code>##    optionA optionB
+## 1        0       1
+## 2        1       0
+## 3        1       1
+## 4        1       0
+## 5        0       0
+## 6        1       0
+## 7        1       0
+## 8        1       0
+## 9        1       0
+## 10       0       0
+## 11       0       0
+## 12       0       0
+## 13       1       0
+## 14       1       0
+## 15       1       0
+## 16       1       0
+## 17       1       0
+## 18       1       0
+## 19       0       1
+## 20       1       0
+## 21       1       0
+## 22       0       0
+## 23       0       1
+## 24       0       1
+## 25       1       0
+## 26       1       0
+## 27       0       0
+## 28       1       0
+## 29       1       1
+## 30       0       1
+## 31       1       1
+## 32       1       1
+## 33       1       1
+## 34       1       0
+## 35       0       0
+## 36       1       0
+## 37       1       1
+## 38       1       0
+## 39       1       0
+## 40       1       1</code></pre>
+<ul>
+<li><p>PsyToolKit上で新しいexperiment, ’exp_2armed_bandit_ext2’を作ります。</p></li>
+<li><p>’Upload image or sound files’の横にある「ファイルを選択」ボタンをクリックし，上のRコードで作った’reward_seq.txt’を，選択します。</p></li>
+<li><p>以下のコードを入力します。これはexp_2armed_bandit_ext1をベースに変更を加えたものです。</p></li>
+</ul>
+<pre class="r"><code>options
+  mouse on # マウス入力をオン
+
+fonts
+  arial 36 # 使用するテキストのフォントを設定
+
+# 【追加】tableとしてreward_seq.txtを読み込む -----------------------------------
+table reward_seq
+  include reward_seq.txt
+  
+# taskの1試行の流れを以下に記述
+task 2armed_bandit
+  # 【追加】各選択肢の報酬の系列の読み込み
+  table reward_seq
+  # 固視点の呈示 -----------------------------------
+  #
+  show text &quot;+&quot; 0 0 # -&gt; stimulus 1に
+  delay 1000
+  clear 1 # stimulus 1 (固視点) を消す
+  #
+  # 選択肢の位置を決める ----------------------------
+  #
+  set $option_pos random 1 2
+  if $option_pos == 1
+    # 緑が右，青が左
+    set $green_x 150
+    set $blue_x -150
+  fi
+  if $option_pos == 2
+    # 緑が左，青が右
+    set $green_x -150
+    set $blue_x 150
+  fi
+  #
+  # 選択肢の呈示 -------------------------------------------
+  #
+  # 座標x = $green_x, y = 0の位置に，幅50，高さ50の緑の正方形を呈示
+  show rectangle $green_x 0 50 50 0 255 0 # ⇒ stimulus 2に
+  # 座標x = $blue_x, y = 0の位置に，幅50，高さ50の青の正方形を呈示
+  show rectangle $blue_x 0 50 50 0 0 255 # ⇒ stimulus 3に
+  #
+  # マウスでの選択の読み取り -------------------------------
+  #
+  # stimulus 2 (緑の正方形)，またはstimulus 3 (青の正方形)
+  # が左クリックされるまで待つ
+  # 【変更】固視点がstimulus 1となった分 stimulus IDが一つずれる
+  # 制限時間は2000ms
+  readmouse l 1 2000 range 2 3
+  #
+  # $c_pos にはクリックされたstimulusのID (2 or 3) が入る
+  set $c_pos bitmap-under-mouse MOUSE_X MOUSE_Y
+  #
+  # 反応時間の記録
+  set $decisiontime RT
+  #
+  #  2秒以内に反応がなかった場合のメッセージ ----------------
+  #  制限時間以内にマウス入力がなかった場合，変数STATUSはTIMEOUT (=3) となる
+  if STATUS == TIMEOUT  
+    clear 2 3
+    set $a 0 # 反応ミス -&gt; $a = 0とする
+    show text &quot;2秒以内に選択してください！&quot; 0 0
+    delay 2500
+  fi
+  #
+  #  どちらの選択をしたか判定 ---------------------------
+  #
+  if STATUS != TIMEOUT
+    if $c_pos == 2    # 青い四角を選択
+      set $a 1
+    fi
+    if $c_pos == 3    # 緑の四角を選択
+      set $a 2
+    fi
+  fi
+  #
+  # 選択の結果の決定，呈示 ---------------------------------
+  #
+  # 報酬の有無の決定のため，1から100の間の乱数を生成
+  set $x random 0 100
+  if $a == 1 # 選択肢1 (緑) を選択
+    show text &quot;▲&quot; $green_x  60
+    delay 500
+    # 
+    # 【変更】
+    if @1 == 1 # tableの1列目 (行は現在の試行ID)が1
+      show text &quot;+10ポイント&quot; 0 -100
+      set $reward 1
+    fi 
+    if @1 == 0 # tableの1列目 (行は現在の試行ID)が0
+      show text &quot;+0ポイント&quot; 0 -100
+      set $reward 0
+    fi 
+  fi
+  if $a == 2 # 選択肢2 (青) を選択
+    show text &quot;▲&quot; $blue_x  60
+    delay 500
+    # 
+    # 【変更】
+    if @2 == 1 # tableの1列目 (行は現在の試行ID)が1
+      show text &quot;+10ポイント&quot; 0 -100
+      set $reward 1
+    fi 
+    if @2 == 0 # tableの1列目 (行は現在の試行ID)が0
+      show text &quot;+0ポイント&quot; 0 -100
+      set $reward 0
+    fi 
+  fi
+  # 1秒待つ
+  delay 1000
+  #
+  # 1試行分のデータの保存-----------------------------------
+  # 1列目: 反応時間 (選択肢が出てからキーを押すまで)
+  # 2列目: 選択 (1 or 2)
+  # 3列目: 報酬の有無 (0 or 1)
+  # 4列目: 選択肢の位置 (1:緑が右, 2:緑が左)
+  # 5列目: 選択肢1に割り当てられた報酬 (1 or 2)　【この列を追加】
+  # 6列目: 選択肢2に割り当てられた報酬 (1 or 2)　【この列を追加】
+  save $decisiontime $a $reward $option_pos @1 @2
+
+block main
+  tasklist
+    # タスク2armed_banditを40試行行う
+    # 【変更】デフォルトだと試行の順番はランダマイズされる
+    # ので，ここではtableとして指定した報酬系列の順番通りに報酬を出すよう，
+    # オプション &#39;fixed&#39; をつける
+    2armed_bandit 40 fixed
+  end</code></pre>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -209,42 +209,25 @@ $(document).ready(function () {
 </div>
 
 
+<div id="psytoolkit" class="section level3">
+<h3>PsyToolkitで２腕バンディット課題を作る</h3>
+<p>簡単にブラウザ上でオンライン実験課題を作ることができるPsyToolkitを用いて ２腕バンディット課題を作る方法を解説します。はじめに，最低限の処理だけを含めた プログラムを作成する方法を解説し，それから4段階にわけて，それを拡張する方法を解説します。</p>
 <ul>
-<li><a href="psytoolkit_minimum_2bandit.html">PsyToolkitで簡単な２腕バンディット課題を作る</a> (作成中)</li>
+<li><p><a href="psytoolkit_minimum_2bandit.html">PsyToolkitで基本的な２腕バンディット課題を作る</a> : ベースとなる最も基本的な’experiment’, exp_2armed_banditを作成します。これを’survey’の中に埋め込んでブラウザから実験に参加できるようにする方法も解説します。</p>
+<ul>
+<li><p><a href="psytoolkit_2bandit_ext1.html">拡張1</a>: 画面遷移を入れる，選択肢の位置のランダマイズ</p></li>
+<li><p><a href="psytoolkit_2bandit_ext2.html">拡張2</a>: 試行ごとの報酬の有無をテーブルで指定する</p></li>
+<li><p><a href="psytoolkit_2bandit_ext3.html">拡張3</a>: 選択肢に画像ファイルを使う，簡単なアニメーションを使う</p></li>
+<li><p><a href="psytoolkit_2bandit_ext4.html">拡張4</a>: 入力デバイスをマウスではなくキーボードにする，教示文を呈示する</p></li>
+</ul></li>
+</ul>
+</div>
+<div class="section level3">
+<h3>データ分析</h3>
+<ul>
 <li><a href="logistic_analysis_fixed_effects.html">選択履歴・報酬履歴を説明変数としたロジスティック回帰 (固定効果分析)</a></li>
 </ul>
-<!--
-
-
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-
-```r
-summary(cars)
-```
-
-```
-##      speed           dist       
-##  Min.   : 4.0   Min.   :  2.00  
-##  1st Qu.:12.0   1st Qu.: 26.00  
-##  Median :15.0   Median : 36.00  
-##  Mean   :15.4   Mean   : 42.98  
-##  3rd Qu.:19.0   3rd Qu.: 56.00  
-##  Max.   :25.0   Max.   :120.00
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-<img src="misc_files/figure-html/pressure-1.png" width="672" />
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
--->
+</div>
 
 
 

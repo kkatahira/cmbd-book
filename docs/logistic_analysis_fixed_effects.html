@@ -213,7 +213,7 @@ $(document).ready(function () {
 <p>はじめにパイプ処理などに必要になるtidyverseを呼び出します。</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
 <p>次にロジスティック回帰モデルに何試行前までの選択・報酬を説明変数に入れるかを設定します。</p>
-<pre class="r"><code># ロジスティック回帰モデルの設定をする。
+<pre class="r"><code># ロジスティック回帰モデルの設定をする
 rlag &lt;- 1:5 # 説明変数に入れる報酬のラグ (1試行前，2試行前，..., 5試行前)
 clag &lt;- 1:5 # 説明変数に入れる選択のラグ (同上)</code></pre>
 <p>もとのデータフレームに列を追加し，1試行前の選択はc1, 2試行前の選択はc2,… 1試行前の報酬はr1,…として 情報を追加すると，glmなどで回帰分析しやすくなります。また，そのためにはdplyrの関数lag()が便利です。ここではオリジナルのデータフレーム，上で定義したrlag, clagを引数とした関数を定義しておきます。ここで，データフレームは変数choiceが選択 (1 or 2)を，rewardが報酬 (0 or 1)を表すものとします。</p>
@@ -286,8 +286,19 @@ print(dflag)</code></pre>
 ##  8       1     8      1      1     1     1     1     1     1    -1     1
 ##  9       1     9      1      1     1     1     1     1     1     1     1
 ## 10       1    10      1      1     1     1     1     1     1     1     1
-## # ... with 1,990 more rows, and 4 more variables: r2 &lt;dbl&gt;, r3 &lt;dbl&gt;,
-## #   r4 &lt;dbl&gt;, r5 &lt;dbl&gt;</code></pre>
+##       r2    r3    r4    r5
+##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1    NA    NA    NA    NA
+##  2    NA    NA    NA    NA
+##  3     0    NA    NA    NA
+##  4     0     0    NA    NA
+##  5     0     0     0    NA
+##  6     1     0     0     0
+##  7     1     1     0     0
+##  8     0     1     1     0
+##  9     1     0     1     1
+## 10     1     1     0     1
+## # ... with 1,990 more rows</code></pre>
 <p>以下でGLMの回帰式を作り，全参加者を通して共通の回帰係数を推定する固定効果モデルでロジスティック回帰を行います。</p>
 <pre class="r"><code># glmの回帰式を作る
 fmla &lt;- as.formula(paste(&quot;c0 ~ &quot;, 

@@ -93,6 +93,7 @@ paramfitMAP <- function(modelfunctions, data,  nParamList, prior)
         lp <- -nll
         H <- res$hessian
         res_ML_best <- res
+        fvalmin <- nll
       }
     }
     negll[idxm] <- fvalmin

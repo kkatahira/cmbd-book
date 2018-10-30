@@ -41,9 +41,8 @@ paramfitML <- function(modelfunctions, data, nParamList)
       
       if (nll < fvalmin) {
         paramest <- res$par
-        fvalmin <- nll
-        
         res_ML_best <- res
+        fvalmin <- nll
       }
     }
     T <- length(data$reward)

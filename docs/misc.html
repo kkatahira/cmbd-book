@@ -209,8 +209,8 @@ $(document).ready(function () {
 </div>
 
 
-<div id="psytoolkit" class="section level3">
-<h3>PsyToolkitで２腕バンディット課題を作る</h3>
+<div id="psytoolkit" class="section level2">
+<h2>PsyToolkitで２腕バンディット課題を作る</h2>
 <p>簡単にブラウザ上でオンライン実験課題を作ることができるPsyToolkitを用いて ２腕バンディット課題を作る方法を解説します。はじめに，最低限の処理だけを含めた プログラムを作成する方法を解説し，それから4段階にわけて，それを拡張する方法を解説します。</p>
 <ul>
 <li><p><a href="psytoolkit_minimum_2bandit.html">PsyToolkitで基本的な２腕バンディット課題を作る</a> : ベースとなる最も基本的な’experiment’, exp_2armed_banditを作成します。これを’survey’の中に埋め込んでブラウザから実験に参加できるようにする方法も解説します。</p>
@@ -221,12 +221,40 @@ $(document).ready(function () {
 <li><p><a href="psytoolkit_2bandit_ext4.html">拡張4</a>: 入力デバイスをマウスではなくキーボードにする，教示文を呈示する</p></li>
 </ul></li>
 </ul>
+<hr />
 </div>
-<div class="section level3">
-<h3>データ分析</h3>
+<div class="section level2">
+<h2>データ分析</h2>
 <ul>
 <li><a href="logistic_analysis_fixed_effects.html">選択履歴・報酬履歴を説明変数としたロジスティック回帰 (固定効果分析)</a></li>
 </ul>
+<hr />
+</div>
+<div id="tips" class="section level2">
+<h2>Tips</h2>
+<div id="map" class="section level4">
+<h4>最適化関数による最尤推定，MAP推定の途中で出るエラーを回避する</h4>
+<p>optim,solnpを用いた最適化の途中でエラーが出ることがあります。 一つの原因は，選択確率pAが推定の途中でちょうど1.0や0.0などの極端な値になってしまう ことによるものです。pA[t] = 1.0となったのに，その試行tではそれと異なる選択肢Bが 選ばれた，というデータが入ると，log(0)を計算することになり，対数尤度はマイナス無限大 (-Inf) となって， その後の処理でエラーになります。以下のようにしてpA[t]を計算した後に，その値を0.001から0.999などの 範囲に強制的に制限するとこの問題は回避できます。</p>
+<pre class="r"><code>        pA[t] &lt;- 1/(1+exp(-beta * (Q[1,t] - Q[2,t])))
+        
+        # pA[t]を0.001から0.999の範囲におさめる
+        if (pA[t] &lt; 0.001) pA[t] &lt;- 0.001
+        if (pA[t] &gt; 0.999) pA[t] &lt;- 0.999
+        
+        ll &lt;- ll + (c[t] == 1) * log(pA[t]) + (c[t] == 2) * log(1-pA[t])</code></pre>
+<p>上の二つのif文は，以下のようにも書けます。</p>
+<pre class="r"><code>        pA[t] &lt;- max( min(pA[t], 0.999), 0.001)</code></pre>
+<p>このようなことをしたら推定結果に影響してしまうのではないかと心配される方もいるかもしれませんが， 本来の選択確率がちょうど1または0になるということはあまりありません。 そのように極端な値をとるのは大抵は最適化の途中のプロセスにおいてのみであり，最終的な結果にはあまり影響しないでしょう。 (少なくとも，対数尤度が-Infとなるような推定値は最尤推定値やMAP推定値とはいえません)。</p>
+</div>
+<div class="section level4">
+<h4>パラメータの値を制限する</h4>
+<p>学習率αは本来0から1の間の範囲の値をとるべきものですが，最尤推定とはそれがマイナスになったり，1以上になったり することがあります。学習率のように定義域が決まっているパラメータについては，探索範囲を制限するとよいと思います。 Rの最適化関数optimであればmethodを“L-BFGS-B”とすることで，lower, upperというオプションで指定できます。solnpであれば，LB, UBというオプションで指定できます。 例えば，パラメータが学習率と逆温度の二つであり，それぞれ値の範囲を[0,1], [0,20]に制限したければ， 以下のようにします。</p>
+<pre class="r"><code>    res &lt;- optim(initparam, func_minimize,
+                  method = &quot;L-BFGS-B&quot;, 
+                  lower = c(0,0), upper = c(1,20), 
+                  hessian = FALSE, choice=c, reward=r)</code></pre>
+<p>solnpならLB = c(0,0), UB = c(1,20) を引数に追加します。 Matlabの場合は標準関数であるfminserchでは探索範囲の指定ができませんが，Optimization toolboxにあるfminconであればそれが可能です。詳細は各関数のマニュアルをご覧ください。</p>
+</div>
 </div>
 
 

@@ -230,7 +230,7 @@ $(document).ready(function () {
 <pre class="r"><code>  show text &quot;+&quot; 0 0 # -&gt; stimulus 1に
   delay 1000
   clear 1 # stimulus 1 (固視点) を消す</code></pre>
-<p>ここではテキストで固視点を表示していますが，大きさの詳細な調整をする場合は 画像を使う方法も考えられます (拡張3参照)。</p>
+<p>ここではテキストで固視点を表示していますが，大きさの詳細な調整をする場合は 画像ファイルを使う方法も考えられます (拡張3参照)。</p>
 <p>左右でランダマイズするために，以下のように1か2のいずれかが出る乱数を ふって各選択肢のx座標を決めます。</p>
 <pre class="r"><code>  set $option_pos random 1 2  # ⇒　$option_posには1か2のいずれかが入る
   if $option_pos == 1

@@ -255,7 +255,7 @@ $(document).ready(function () {
 <li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter4/qlearning_simulation_Bayes_single.R">qlearning_simulation_Bayes_single.R</a> (図4.2の作成に使用)
 <ul>
 <li>Q学習モデルのシミュレーションにより一人分の選択データを生成し，そのデータからベイズ推定，MAP推定をします (比較のため最尤推定も行う)。</li>
-<li>Stanコード<a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter4/qlearning_group.stan">qlearning_single_subject.stan</a>を呼び出します。 <!---
+<li>Stanコード<a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter4/qlearning_single_subject.stan">qlearning_single_subject.stan</a>を呼び出します。 <!---
 - この関数と同等の処理をするモデルを設定する[model_functions.R](https://github.com/kkatahira/cmbd-book/blob/master/chapter4/model_functions.R)，パラメータ推定のための関数を定義した[parameter_fit_functions.R](https://github.com/kkatahira/cmbd-book/blob/master/chapter4/parameter_fit_functions.R)を呼び出します。
 - model_functions.Rでは，本文では使いませんが第2章で登場したWSLSモデルやバイアスモデルも定義されています。---></li>
 </ul></li>
@@ -387,9 +387,9 @@ $(document).ready(function () {
 <div class="section level3">
 <h3>更新履歴</h3>
 <ul>
-<li>2018/10/30 parameter_fit_functions.Rのバグを修正</li>
 <li>2019/03/25 qlearning_simulation_Bayes_single.Rの描画に関するバグを修正※1</li>
 <li>2019/03/25 qlearning_groupdata.Rのstanコード参照, およびmodel_qlearning_group.stanのバグを修正※1</li>
+<li>2018/10/30 parameter_fit_functions.Rのバグを修正</li>
 </ul>
 <p>※1 田中友喜様 (株式会社マイクロアド) にご指摘いただきました。ありがとうございます。</p>
 </div>

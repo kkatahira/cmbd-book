@@ -262,7 +262,7 @@ $(document).ready(function () {
 <li><a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter4/qlearning_groupdata.R">qlearning_groupdata.R</a> (図4.5の作成に使用)
 <ul>
 <li>Q学習モデルのシミュレーションにより40人分の選択データを生成し， 階層ベイズ法，固定効果分析，個人レベルのMAP推定， 個人レベルの最尤推定を実行します。</li>
-<li>Stanコードである<a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter4/smodel_qlearning_group.stan">qlearning_group.stan</a>を呼び出します。</li>
+<li>Stanコード<a href="https://github.com/kkatahira/cmbd-book/blob/master/chapter4/model_qlearning_group.stan">model_qlearning_group.stan</a>を呼び出します。</li>
 </ul></li>
 </ul>
 <hr />
@@ -383,9 +383,15 @@ $(document).ready(function () {
 <li><p>現在の集団データの表現形式は参加者ごとに試行数が変わる状況に対応していません。その状況への対応については今後追記していきたいと考えています。</p></li>
 </ul>
 <hr />
+</div>
+<div class="section level3">
+<h3>更新履歴</h3>
 <ul>
 <li>2018/10/30 parameter_fit_functions.Rのバグを修正</li>
+<li>2019/03/25 qlearning_simulation_Bayes_single.Rの描画に関するバグを修正※1</li>
+<li>2019/03/25 qlearning_groupdata.Rのstanコード参照, およびmodel_qlearning_group.stanのバグを修正※1</li>
 </ul>
+<p>※1 田中友喜様 (株式会社マイクロアド) にご指摘いただきました。ありがとうございます。</p>
 </div>
 
 

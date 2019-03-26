@@ -20,8 +20,6 @@ parameters {
 transformed parameters {
   real<lower=0.0,upper=1.0> alpha[N]; 
   real<lower=0.0> beta[N];
-  real<lower=0.0,upper=1.0> alpha_p; 
-  real<lower=0.0> beta_p;
   
   for (n in 1:N) {
     alpha[n] = inv_logit(mu_p_alpha + sigma_p_alpha * eta_alpha[n]);

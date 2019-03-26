@@ -213,8 +213,6 @@ for (idxsub in 1:N) {
       
       # 各パラメータの標準誤差
       param_se[idxsub, ] <- sqrt(diag(solve(hess)))
-      
-      cat("\n solnp: ", res$pars, " fval: ", fval)
     }
   }
 }
@@ -253,8 +251,6 @@ for (idxsub in 1:N) {
     if (fval > res$values[length(res$values)]) {
       fval <- res$values[length(res$values)]
       paramest[idxsub, ] <- res$pars
-      
-      cat("\n solnp: ", res$pars, " fval: ", fval)
     }
   }
 }
@@ -279,8 +275,6 @@ for (idxopt in 1:10) {
   if (fval > res$values[length(res$values)]) {
     fval <- res$values[length(res$values)]
     paramest <- res$pars
-    cat("\n solnp: ", res$pars , " fval: ", res$values[length(res$values)])
-    
   }
   
   FE_param <- list(paramest[1], paramest[2])
@@ -320,7 +314,7 @@ initsList <- lapply(1:nChains,
                       initf(chain_id = id, SS_param = SS_param))
 
 # サンプリング
-stanFit <- stan(file = 'qlearning_group.stan', 
+stanFit <- stan(file = 'model_qlearning_group.stan', 
                 data = dataList, 
                 iter = 5000, 
                 thin = 1, 

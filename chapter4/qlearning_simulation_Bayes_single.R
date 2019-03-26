@@ -254,9 +254,9 @@ galpha_posterior <- ggplot(df_post,
             aes(x = alpha)) + 
   geom_histogram(aes(y = ..density..)) + 
   geom_density(size=1,linetype=1) +
-  geom_vline(xintercept = resultMAP$paramlist[[1]][1], 
+  geom_vline(xintercept = resultMAP$paramest[1], 
              size=1,linetype=2) + # MAP estimates
-  geom_vline(xintercept = resultML$paramlist[[1]][1], 
+  geom_vline(xintercept = resultML$paramest[1], 
              size=0.5,linetype=3) + # ML estimates
   ylab('density') +
   xlab('alpha') 
@@ -266,9 +266,9 @@ gbeta_posterior <- ggplot(df_post,
             aes(x = beta)) + 
   geom_histogram(aes(y = ..density..)) + 
   geom_density(size=1,linetype=1) + 
-  geom_vline(xintercept = resultMAP$paramlist[[1]][2], 
+  geom_vline(xintercept = resultMAP$paramest[2], 
              size=1,linetype=2) + # MAP estimates
-  geom_vline(xintercept = resultML$paramlist[[1]][2], 
+  geom_vline(xintercept = resultML$paramest[2], 
              size=0.5,linetype=3) + # ML estimates
   ylab('density') +
   xlab('beta') 

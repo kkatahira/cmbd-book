@@ -210,8 +210,8 @@ $(document).ready(function () {
 
 
 <p>以下，お詫びして訂正致します。</p>
-<div id="12-324-" class="section level2">
-<h2>第1刷，第2刷の修正 (3/24 確認中)</h2>
+<div id="12" class="section level2">
+<h2>第1刷，第2刷の修正</h2>
 <table>
 <thead>
 <tr class="header">
@@ -233,14 +233,43 @@ $(document).ready(function () {
 <tr class="even">
 <td align="left">p.73</td>
 <td align="left">式(5.6)のEの引数</td>
-<td align="left"><span class="math inline">\(\log(X...\)</span></td>
-<td align="left"><span class="math inline">\(\log p(X...\)</span></td>
+<td align="left"><span class="math inline">\(\log(X\mid \theta)...\)</span></td>
+<td align="left"><span class="math inline">\(\log p(X\mid \theta)\)</span></td>
+<td align="left">※4</td>
+</tr>
+<tr class="odd">
+<td align="left">p.73</td>
+<td align="left">式(5.17)の3行後</td>
+<td align="left">MCMCによるサンプルを用いた計算方法は付録A.5で</td>
+<td align="left">MCMCによるサンプルを用いた計算方法は付録A.6で</td>
+<td align="left">※4</td>
+</tr>
+<tr class="even">
+<td align="left">p.81</td>
+<td align="left">最初の式の2行目の等式</td>
+<td align="left"><span class="math inline">\(\varphi_k = ...\)</span></td>
+<td align="left"><span class="math inline">\(\varphi_l = ...\)</span></td>
+<td align="left">※4</td>
+</tr>
+<tr class="odd">
+<td align="left">p.188</td>
+<td align="left">ページ内最後のコードブロック</td>
+<td align="left">引数，呼び出している関数名に誤りあり。</td>
+<td align="left">※5を参照</td>
 <td align="left">※4</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<p>※4 田中友喜様 (株式会社マイクロアド) にご指摘いただきました。ありがとうございます。 他にも多くの修正箇所を指摘していただきました。現在確認中ですので，少々お待ちください。3/26までには全て反映させる予定です。</p>
+<p>※4 田中友喜様 (株式会社マイクロアド) にご指摘いただきました。ありがとうございます。 他にもサンプルコードへの誤りをご指摘いただいております。現在確認中ですので，少々お待ちください。3/26までには全て反映させる予定です。</p>
+<p>※5 正しいコードブロックは以下になります。</p>
+<pre class="r"><code>func_minimize &lt;- function(modelfunc, param, choice, reward)
+{
+  ret &lt;- modelfunc(param, choice, reward)
+  
+  # 負の対数尤度のみ返す
+  return(ret$negll)
+}</code></pre>
 </div>
 <div id="1-2" class="section level2">
 <h2>第1刷の修正 (第2刷では修正される予定)</h2>

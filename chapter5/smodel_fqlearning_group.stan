@@ -27,11 +27,9 @@ transformed parameters {
   for (n in 1:N) {
     alpha[n] = inv_logit(mu_p_alpha + sigma_p_alpha * eta_alpha[n]);
     beta[n] = 20 * inv_logit(mu_p_beta + sigma_p_beta * eta_beta[n]); 
-    // exp(mu_p_beta + sigma_p_beta * eta_beta[n]);
   }
   alpha_p = inv_logit(mu_p_alpha);
   beta_p = exp(mu_p_beta);
-  // normal(mu_p_beta, sigma_p_beta); // vectorized, truncated (> 0)
 }
 
 model {

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -69,9 +69,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -85,7 +83,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -95,6 +92,9 @@ img {
 }
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -110,7 +110,6 @@ body {
   padding-top: 56px;
   margin-top: -56px;
 }
-
 .section h2 {
   padding-top: 56px;
   margin-top: -56px;
@@ -130,6 +129,43 @@ body {
 .section h6 {
   padding-top: 56px;
   margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -151,19 +187,74 @@ $(document).ready(function () {
 });
 </script>
 
-
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-</script>
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
 
 <!-- code folding -->
 
 
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
 
 
 
@@ -211,9 +302,10 @@ $(document).ready(function () {
 
 <p>本Webサイトは『行動データの計算論モデリング―強化学習モデルを例として―』のサポートページです。</p>
 <hr />
-<div class="section level3">
+<div id="更新履歴" class="section level3">
 <h3>更新履歴</h3>
 <ul>
+<li><p>2021/03/01 <a href="./errata.html">正誤表</a> を更新しました。</p></li>
 <li><p>2019/03/26 <a href="./errata.html">正誤表</a> および<a href="./code.html">サンプルコード</a> を更新しました。</p></li>
 <li><p>2018/11/20 正誤表を更新しました。⇒<a href="./errata.html">こちら</a></p></li>
 <li><p>2018/11/1 パラメータ推定のためのTipsを追加しました。⇒<a href="./misc.html">こちら</a></p></li>
@@ -224,27 +316,29 @@ $(document).ready(function () {
 </ul>
 <hr />
 </div>
-<div id="r" class="section level3">
+<div id="rコード" class="section level3">
 <h3>Rコード</h3>
 <ul>
 <li><p>R, Stanのコード (スクリプト) のファイルは以下のGitHubリポジトリに設置しています:<br />
-<a href="https://github.com/kkatahira/cmbd-book" class="uri">https://github.com/kkatahira/cmbd-book</a></p></li>
+<a href="https://github.com/kkatahira/cmbd-book">https://github.com/kkatahira/cmbd-book</a></p></li>
 <li><p>コードのリストと簡単な説明は<a href="./code.html">こちら</a>にあります。</p></li>
 <li><p>コードをまとめたzipファイルは<a href="./cmbd-book-Rcodes_v001.zip">こちら</a>からダウンロードできます。</p></li>
 </ul>
 <p>注：本サイトで公開しているコードは，そのまま 実際のデータ解析に用いることを想定したものではなく， スクリプトをご自身で書かれる方の一助となれば， ということで掲載しています。そのため，汎用的・効率的ではない書き方をしているところや，冗長なところもあります (単に筆者の力量不足の問題もあります)。 また，MCMCの収束のチェック等，本来必要なプロセスも， 本書では説明していない処理は省略したところもあります。 プログラムの動作については保証はできませんので， ご使用の際は各自の責任でお願いいたします。</p>
-<hr />
-</div>
-<div class="section level3">
-<h3>今後このサイトに追加していきたいこと</h3>
-<ul>
-<li>本書の内容の補足</li>
-<li>計算論モデリングを用いた論文の紹介</li>
-<li>より実践的・汎用的なRコードにするための方法</li>
-<li>計算論モデリングに関するQ&amp;A</li>
-<li>練習問題の解答例</li>
-</ul>
-<hr />
+<!--
+有言不実行になってしまっているのでコメントアウト
+******
+
+### 今後このサイトに追加していきたいこと
+
+- 本書の内容の補足
+- 計算論モデリングを用いた論文の紹介
+- より実践的・汎用的なRコードにするための方法
+- 計算論モデリングに関するQ&A
+- 練習問題の解答例
+
+******
+-->
 </div>
 
 
@@ -264,6 +358,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
